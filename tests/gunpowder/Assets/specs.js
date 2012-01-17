@@ -54,8 +54,8 @@ class specs extends gunpowder {
 				});
       });
 
-			describe('resetting scene', function() {
-				context('after an "it" finishes', function() {
+			describe('resetting the scene', function() {
+				context('a test finishes', function() {
 					var boxPosition = _('box').getGameObject().transform.position;
 					var ballPosition = _('ball').getGameObject().transform.position;
 					
