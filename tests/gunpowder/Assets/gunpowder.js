@@ -1,4 +1,4 @@
-var _ = function(object) { return 0; };
+var _ = function(selector) { return GameObject.Find(selector); };
 var context = function(name, func) { func(); };
 var describe = function(name, func) { func(); };
 var it = function(name, func) { func(); };
@@ -19,6 +19,21 @@ class Matcher {
       if(_actual != expected) {
         Debug.LogError('Expected ' + _actual + ' to equal ' + expected);
       }
+    }
+  }
+  
+  function toHavePosition(expectedX, expectedY, expectedZ) {
+    var actualPosition = _actual.transform.position;
+    var expectedPosition = new Vector3(expectedX, expectedY, expectedZ);
+    
+    if(_negate) {
+      if(Vector3.Distance(actualPosition, expectedPosition) == 0) {
+        Debug.LogError('Expected ' + _actual.name + ' not to have position ' + expectedPosition + ' but got ' + actualPosition);
+      }
+    } else {
+      if(Vector3.Distance(actualPosition, expectedPosition) != 0) {
+        Debug.LogError('Expected ' + _actual.name + ' to have position ' + expectedPosition + ' but got ' + actualPosition);
+      } 
     }
   }
   
