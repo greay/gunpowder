@@ -1,12 +1,32 @@
-var _ = function(selector) { return GameObject.Find(selector); };
+var _ = function(selector) { return new Selector(selector); };
 var context = function(name, func) { func(); };
 var describe = function(name, func) { func(); };
 var it = function(name, func) { func(); };
 var expect = function(actual) { return new Matcher(actual); };
 
+class Selector {
+	function Selector(selector) {
+		_gameObject = GameObject.Find(selector);
+	}
+	
+	function moveTo(x, y, z) {
+		_gameObject.transform.position = new Vector3(x, y, z);
+	}
+	
+	function getGameObject() {
+		return _gameObject;
+	}
+	
+	var _gameObject;
+}
+
 class Matcher {
-  function Matcher(actual) { 
-    _actual = actual;
+  function Matcher(actual) {
+		if(actual.GetType() == typeof(Selector)) {
+			_actual = actual.getGameObject();
+		} else {
+			_actual = actual;
+		}
     _negate = false; 
   }
   
@@ -36,6 +56,18 @@ class Matcher {
       } 
     }
   }
+
+	function toBeVisible() {
+		if(_negate) {
+			if(_actual.renderer.enabled) {
+				Debug.LogError('Expected ' + _actual.name + ' not to be visible');
+			}
+		} else {
+			if(!_actual.renderer.enabled) {
+				Debug.LogError('Expected ' + _actual.name + ' to be visible');
+			}
+		}
+	}
   
   function not() {
     _negate = true;
