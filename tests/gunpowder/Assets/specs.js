@@ -19,13 +19,31 @@ class specs extends gunpowder {
       });
       
       describe('matchers', function() {
+        describe('toBeTruthy', function() {
+          it('is true', function() {
+            expect(true).toBeTruthy().toPass();
+            expect(false).toBeTruthy().toFail();
+          });
+        });
+        
+        describe('toBeFalsy', function() {
+          it('is false', function() {
+            expect(false).toBeFalsy().toPass();
+            expect(true).toBeFalsy().toFail();
+          });
+        });
+        
         describe('toEqual', function() {
           it('equals', function() {
-            expect(1).toEqual(1);
+            expect(1).toEqual(1).toPass();
+            expect(1).toEqual(3).toFail();
           });
-          
+        });
+        
+        describe('not', function() {
           it('does not equal', function() {
-            expect(3).not().toEqual(1);
+            expect(3).not().toEqual(1).toPass();
+            expect(1).not().toEqual(1).toFail();
           });
         });
         

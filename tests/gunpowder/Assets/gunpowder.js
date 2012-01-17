@@ -46,19 +46,42 @@ class Matcher {
 		} else {
 			_actual = actual;
 		}
-    _negate = false; 
+    _negate = false;
+    _failed = false;
+  }
+  
+  function toBeTruthy() {
+    if(_actual != true) {
+      Debug.LogError('Expected ' + _actual + ' to be truthy');
+      _failed = true;
+    }
+    
+    return this;
+  }
+  
+  function toBeFalsy() {
+    if(_actual != false) {
+      Debug.LogError('Expected ' + _actual + ' to be falsy');
+      _failed = true;
+    }
+    
+    return this;
   }
   
   function toEqual(expected) {
     if(_negate) {
       if(_actual == expected) {
         Debug.LogError('Expected ' + _actual + ' not to equal ' + expected);
+        _failed = true;
       }
     } else {
       if(_actual != expected) {
         Debug.LogError('Expected ' + _actual + ' to equal ' + expected);
+        _failed = true;
       }
     }
+    
+    return this;
   }
   
   function toHavePosition(expectedX, expectedY, expectedZ) {
@@ -93,6 +116,19 @@ class Matcher {
     return this;
   }
   
+  function toPass() {
+    if(_failed) {
+      Debug.LogError('Expected to pass but failed');
+    }
+  }
+  
+  function toFail() {
+    if(!_failed) {
+      Debug.LogError('Expected to fail but passed');
+    }
+  }
+  
   var _actual;
   var _negate;
+  var _failed;
 }
