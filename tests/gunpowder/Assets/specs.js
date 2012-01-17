@@ -1,5 +1,5 @@
 class specs extends gunpowder {
-  function Start() {
+  function run() {
     describe('gunpowder', function() {
       describe('selector', function() {
         it('can find the game object', function() {
@@ -8,10 +8,12 @@ class specs extends gunpowder {
 
 				describe('actions', function() {
 					describe('moveTo', function() {
-						_('box').moveTo(0, 3, 5);
-						expect(_('box').getGameObject().transform.position.x).toEqual(0);
-						expect(_('box').getGameObject().transform.position.y).toEqual(3);
-						expect(_('box').getGameObject().transform.position.z).toEqual(5);
+						it('moves the object to the correct location', function() {
+							_('ball').moveTo(0, 3, 2);
+							expect(_('ball').getGameObject().transform.position.x).toEqual(0);
+							expect(_('ball').getGameObject().transform.position.y).toEqual(3);
+							expect(_('ball').getGameObject().transform.position.z).toEqual(2);
+						});
 					});
 				});
       });
@@ -51,6 +53,23 @@ class specs extends gunpowder {
 					});
 				});
       });
+
+			describe('resetting scene', function() {
+				context('after an "it" finishes', function() {
+					var boxPosition = _('box').getGameObject().transform.position;
+					var ballPosition = _('ball').getGameObject().transform.position;
+					
+					it('moves the objects', function() {
+						_('box').moveTo(5, 5, 5);
+						_('ball').moveTo(3, 3, 3);
+					});
+					
+					it('resets the objects', function() {
+						expect(_('box')).toHavePosition(boxPosition.x, boxPosition.y, boxPosition.z);
+						expect(_('ball')).toHavePosition(ballPosition.x, ballPosition.y, ballPosition.z);
+					});
+				});
+			});
     });
   }
 }

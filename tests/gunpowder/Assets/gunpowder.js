@@ -1,8 +1,27 @@
 var _ = function(selector) { return new Selector(selector); };
+
 var context = function(name, func) { func(); };
 var describe = function(name, func) { func(); };
-var it = function(name, func) { func(); };
 var expect = function(actual) { return new Matcher(actual); };
+var it = function(name, func) { testsToRun.Push(func); };
+
+function run() {}
+
+static var testsToRun = new Array();
+static var testsFinished = false;
+
+function Start() {
+	if(!testsFinished) {
+		if(testsToRun.length == 0) {
+			run();
+		} else {
+			if(testsToRun.length == 1) { testsFinished = true; }
+			var nextTest = testsToRun.Pop();
+			nextTest();
+		}
+		Application.LoadLevel('test');
+	}
+}
 
 class Selector {
 	function Selector(selector) {
