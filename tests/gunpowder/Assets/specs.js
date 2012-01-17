@@ -4,24 +4,7 @@ class specs extends gunpowder {
       describe('expectations', function() {
         it('can compare objects', function() {
           expect(1).toEqual(1);
-          expect(3).not.toEqual(1);
-        });
-      });
-      
-      describe('selector', function() {
-        it('returns the correct gameobject', function() {
-          // expect(_('box')).toEqual(GameObject.Find('box'));
-          // expect(_('box')).not.toEqual(GameObject.Find('sphere'));
-        });
-      });
-      
-      describe('matchers', function () {
-        describe('toHavePosition', function() {
-          it('has the correct position', function() {
-            // newPosition = new Vector3(1, 2, 3);
-            // GameObject.Find('box').transform.position = newPosition;
-            // expect(_('box')).toHavePosition(1, 2, 3);
-          });
+          expect(3).not().toEqual(1);
         });
       });
     });
