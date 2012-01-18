@@ -1,24 +1,39 @@
 var _ = function(selector) { return new Selector(selector); };
 
-var context = function(name, func) { func(); };
-var describe = function(name, func) { func(); };
+var beforeEach = function(func) { beforesToRun.Push(func); };
+var context = function(name, func) { describe(name, func); };
+var describe = function(name, func) {
+  var before = beforesToRun.length;
+  func();
+  var after = beforesToRun.length;
+  for(var index = 0; index < (after-before); index++) { 
+    beforesToRun.Pop(); 
+  }
+};
 var expect = function(actual) { return new Matcher(actual, true); };
 var match = function(actual) { return new Matcher(actual, false); };
-var it = function(name, func) { testsToRun.Push(func); };
+var it = function(name, func) {
+  testsToRun.Push({'befores' : new Array(beforesToRun), 'test' : func}); 
+};
 
 function run() {}
 
 static var testsToRun = new Array();
+static var beforesToRun = new Array();
 static var testsFinished = false;
 
 function Start() {
 	if(!testsFinished) {
 		if(testsToRun.length == 0) {
 			run();
+			testsToRun.Reverse();
 		} else {
 			if(testsToRun.length == 1) { testsFinished = true; }
 			var nextTest = testsToRun.Pop();
-			nextTest();
+			for(var before in nextTest['befores']) {
+			  before();
+			}
+			nextTest['test']();
 		}
 		Application.LoadLevel('test');
 	}

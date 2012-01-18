@@ -122,6 +122,51 @@ class specs extends gunpowder {
 					});
 				});
 			});
+			
+			describe('beforeEach', function() {
+			  var number = 0;
+			  beforeEach(function() {
+			    number++;
+			  });
+			  
+			  it('increments the number', function() {
+			    expect(number).toEqual(1);
+			  });
+			  
+			  describe('nested beforeEach', function() {
+			    beforeEach(function() {
+			      number--;
+			    });
+			    
+			    it('increments and decrements the number', function() {
+			      expect(number).toEqual(1);
+			    });
+			    
+			    describe('another nested beforeEach', function() {
+  			    beforeEach(function() {
+  			      number--;
+  			    });
+
+  			    it('increments and double decrements the number', function() {
+  			      expect(number).toEqual(0);
+  			    });
+  			  });
+			  });
+			  
+			  context('another nested beforeEach', function() {
+			    beforeEach(function() {
+			      number++;
+			    });
+
+			    it('double increments the number', function() {
+			      expect(number).toEqual(2);
+			    });
+			  });
+			  
+			  it('increments the number again', function() {
+			    expect(number).toEqual(3);
+			  });
+			});
     });
   }
 }
