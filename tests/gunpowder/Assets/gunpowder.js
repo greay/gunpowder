@@ -66,18 +66,32 @@ class Matcher {
   }
   
   function toBeTruthy() {
-    if(_actual != true) {
-      printError('Expected ' + _actual + ' to be truthy');
-      _failed = true;
+    if(_negate) {
+      if(_actual == true) {
+        printError('Expected ' + _actual + ' not to be truthy');
+        _failed = true;
+      }
+    } else {
+      if(_actual != true) {
+        printError('Expected ' + _actual + ' to be truthy');
+        _failed = true;
+      }
     }
     
     return this;
   }
   
   function toBeFalsy() {
-    if(_actual != false) {
-      printError('Expected ' + _actual + ' to be falsy');
-      _failed = true;
+    if(_negate) {
+      if(_actual == false) {
+        printError('Expected ' + _actual + ' not to be falsy');
+        _failed = true;
+      }
+    } else {
+      if(_actual != false) {
+        printError('Expected ' + _actual + ' to be falsy');
+        _failed = true;
+      }
     }
     
     return this;
