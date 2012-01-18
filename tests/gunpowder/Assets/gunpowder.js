@@ -2,7 +2,8 @@ var _ = function(selector) { return new Selector(selector); };
 
 var context = function(name, func) { func(); };
 var describe = function(name, func) { func(); };
-var expect = function(actual) { return new Matcher(actual); };
+var expect = function(actual) { return new Matcher(actual, true); };
+var match = function(actual) { return new Matcher(actual, false); };
 var it = function(name, func) { testsToRun.Push(func); };
 
 function run() {}
@@ -40,19 +41,33 @@ class Selector {
 }
 
 class Matcher {
-  function Matcher(actual) {
-		if(actual.GetType() == typeof(Selector)) {
-			_actual = actual.getGameObject();
-		} else {
-			_actual = actual;
-		}
+  function Matcher(actual, showErrors) {
     _negate = false;
     _failed = false;
+    _showErrors = showErrors;
+    
+    switch(actual.GetType()) {
+      case typeof(Selector):
+        _actual = actual.getGameObject();
+        break;
+      case typeof(Matcher):
+        _failed = actual._failed;
+        break;
+      default:
+        _actual = actual;
+        break;
+    }
+  }
+  
+  function printError(message) {
+    if(_showErrors) {
+      Debug.LogError(message);
+    }
   }
   
   function toBeTruthy() {
     if(_actual != true) {
-      Debug.LogError('Expected ' + _actual + ' to be truthy');
+      printError('Expected ' + _actual + ' to be truthy');
       _failed = true;
     }
     
@@ -61,7 +76,7 @@ class Matcher {
   
   function toBeFalsy() {
     if(_actual != false) {
-      Debug.LogError('Expected ' + _actual + ' to be falsy');
+      printError('Expected ' + _actual + ' to be falsy');
       _failed = true;
     }
     
@@ -71,12 +86,12 @@ class Matcher {
   function toEqual(expected) {
     if(_negate) {
       if(_actual == expected) {
-        Debug.LogError('Expected ' + _actual + ' not to equal ' + expected);
+        printError('Expected ' + _actual + ' not to equal ' + expected);
         _failed = true;
       }
     } else {
       if(_actual != expected) {
-        Debug.LogError('Expected ' + _actual + ' to equal ' + expected);
+        printError('Expected ' + _actual + ' to equal ' + expected);
         _failed = true;
       }
     }
@@ -90,25 +105,49 @@ class Matcher {
     
     if(_negate) {
       if(Vector3.Distance(actualPosition, expectedPosition) == 0) {
-        Debug.LogError('Expected ' + _actual.name + ' not to have position ' + expectedPosition + ' but got ' + actualPosition);
+        printError('Expected ' + _actual.name + ' not to have position ' + expectedPosition + ' but got ' + actualPosition);
+        _failed = true;
       }
     } else {
       if(Vector3.Distance(actualPosition, expectedPosition) != 0) {
-        Debug.LogError('Expected ' + _actual.name + ' to have position ' + expectedPosition + ' but got ' + actualPosition);
+        printError('Expected ' + _actual.name + ' to have position ' + expectedPosition + ' but got ' + actualPosition);
+        _failed = true;
       } 
     }
+    
+    return this;
   }
 
 	function toBeVisible() {
 		if(_negate) {
 			if(_actual.renderer.enabled) {
-				Debug.LogError('Expected ' + _actual.name + ' not to be visible');
+				printError('Expected ' + _actual.name + ' not to be visible');
+				_failed = true;
 			}
 		} else {
 			if(!_actual.renderer.enabled) {
-				Debug.LogError('Expected ' + _actual.name + ' to be visible');
+				printError('Expected ' + _actual.name + ' to be visible');
+				_failed = true;
 			}
 		}
+		
+		return this;
+	}
+	
+	function toBeHidden() {
+		if(_negate) {
+			if(!_actual.renderer.enabled) {
+				printError('Expected ' + _actual.name + ' not to be hidden');
+			  _failed = true;
+			}
+		} else {
+			if(_actual.renderer.enabled) {
+				printError('Expected ' + _actual.name + ' to be hidden');
+			  _failed = true;
+			}
+		}
+		
+		return this;
 	}
   
   function not() {
@@ -131,4 +170,5 @@ class Matcher {
   var _actual;
   var _negate;
   var _failed;
+  var _showErrors;
 }

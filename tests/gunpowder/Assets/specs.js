@@ -21,53 +21,61 @@ class specs extends gunpowder {
       describe('matchers', function() {
         describe('toBeTruthy', function() {
           it('is true', function() {
-            expect(true).toBeTruthy().toPass();
-            expect(false).toBeTruthy().toFail();
+            expect(match(true).toBeTruthy()).toPass();
+            expect(match(false).toBeTruthy()).toFail();
           });
         });
         
         describe('toBeFalsy', function() {
           it('is false', function() {
-            expect(false).toBeFalsy().toPass();
-            expect(true).toBeFalsy().toFail();
+            expect(match(false).toBeFalsy()).toPass();
+            expect(match(true).toBeFalsy()).toFail();
           });
         });
         
         describe('toEqual', function() {
           it('equals', function() {
-            expect(1).toEqual(1).toPass();
-            expect(1).toEqual(3).toFail();
+            expect(match(1).toEqual(1)).toPass();
+            expect(match(1).toEqual(3)).toFail();
           });
         });
         
         describe('not', function() {
           it('does not equal', function() {
-            expect(3).not().toEqual(1).toPass();
-            expect(1).not().toEqual(1).toFail();
+            expect(match(3).not().toEqual(1)).toPass();
+            expect(match(1).not().toEqual(1)).toFail();
           });
         });
         
         describe('toHavePosition', function() {
           it('has the correct position', function() {
             _('box').getGameObject().transform.position = new Vector3(1, 2, 3);
-            expect(_('box')).toHavePosition(1, 2, 3);
-          });
-          
-          it('does not have correct position', function() {
-            _('box').getGameObject().transform.position = new Vector3(4, 5, 6);
-            expect(_('box')).not().toHavePosition(1, 2, 3);
+            expect(match(_('box')).toHavePosition(1, 2, 3)).toPass();
+            expect(match(_('box')).toHavePosition(3, 2, 1)).toFail();
           });
         });
 
 				describe('toBeVisible', function() {
 					it('is visible', function() {
 						_('ball').getGameObject().renderer.enabled = true;
-						expect(_('ball')).toBeVisible();
+						expect(match(_('ball')).toBeVisible()).toPass();
 					});
 					
 					it('is not visible', function() {
 						_('ball').getGameObject().renderer.enabled = false;
-						expect(_('ball')).not().toBeVisible();
+						expect(match(_('ball')).toBeVisible()).toFail();
+					});
+				});
+				
+				describe('toBeHidden', function() {
+					it('is hidden', function() {
+						_('box').getGameObject().renderer.enabled = false;
+						expect(match(_('box')).toBeHidden()).toPass();
+					});
+					
+					it('is not hidden', function() {
+						_('box').getGameObject().renderer.enabled = true;
+						expect(match(_('box')).toBeHidden()).toFail();
 					});
 				});
       });
