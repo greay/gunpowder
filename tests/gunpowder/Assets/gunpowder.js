@@ -24,39 +24,39 @@ static var testsFinished = false;
 static var sceneName;
 
 function Start() {
-	if(!testsFinished) {
-		if(testsToRun.length == 0) {
-			run();
-			testsToRun.Reverse();
-			Start();
-		} else {
-			if(testsToRun.length == 1) { testsFinished = true; }
-			var nextTest = testsToRun.Pop();
-			for(var before in nextTest['befores']) {
-			  before();
-			}
-			nextTest['test']();
-			Application.LoadLevel(sceneName);
-		}
-	} else {
-	  Debug.Log('Finished running specs!');
-	}
+ if(!testsFinished) {
+   if(testsToRun.length == 0) {
+     run();
+     testsToRun.Reverse();
+     Start();
+   } else {
+     if(testsToRun.length == 1) { testsFinished = true; }
+     var nextTest = testsToRun.Pop();
+     for(var before in nextTest['befores']) {
+       before();
+     }
+     nextTest['test']();
+     Application.LoadLevel(sceneName);
+   }
+ } else {
+   Debug.Log('Finished running specs!');
+ }
 }
 
 class Selector {
-	function Selector(selector) {
-		_gameObject = GameObject.Find(selector);
-	}
-	
-	function moveTo(x, y, z) {
-		_gameObject.transform.position = new Vector3(x, y, z);
-	}
-	
-	function getGameObject() {
-		return _gameObject;
-	}
-	
-	var _gameObject;
+ function Selector(selector) {
+   _gameObject = GameObject.Find(selector);
+ }
+ 
+ function moveTo(x, y, z) {
+   _gameObject.transform.position = new Vector3(x, y, z);
+ }
+ 
+ function getGameObject() {
+   return _gameObject;
+ }
+ 
+ var _gameObject;
 }
 
 class Matcher {
@@ -65,16 +65,20 @@ class Matcher {
     _failed = false;
     _showErrors = showErrors;
     
-    switch(actual.GetType()) {
-      case typeof(Selector):
-        _actual = actual.getGameObject();
-        break;
-      case typeof(Matcher):
-        _failed = actual._failed;
-        break;
-      default:
-        _actual = actual;
-        break;
+    if (actual == null) {
+      _actual = new Null();
+    } else {
+      switch(actual.GetType()) {
+        case typeof(Selector):
+          _actual = actual.getGameObject();
+          break;
+        case typeof(Matcher):
+          _failed = actual._failed;
+          break;
+        default:
+          _actual = actual;
+          break;
+      }
     }
   }
   
@@ -84,6 +88,24 @@ class Matcher {
     }
   }
   
+  function toExist() {
+    var actual_exists = _actual != null && typeof(_actual) != Null;
+
+    if(_negate) {
+      if(actual_exists) {
+        printError("Expected "+ _actual +" not to exist");
+        _failed = true;
+      }
+    } else {
+      if(!actual_exists) {
+        printError("Expected "+ _actual +" to exist");
+        _failed = true;
+      }
+    }
+
+    return this;
+  }
+
   function toBeTruthy() {
     if(_negate) {
       if(_actual == true) {
@@ -151,37 +173,37 @@ class Matcher {
     return this;
   }
 
-	function toBeVisible() {
-		if(_negate) {
-			if(_actual.renderer.enabled) {
-				printError('Expected ' + _actual.name + ' not to be visible');
-				_failed = true;
-			}
-		} else {
-			if(!_actual.renderer.enabled) {
-				printError('Expected ' + _actual.name + ' to be visible');
-				_failed = true;
-			}
-		}
-		
-		return this;
-	}
-	
-	function toBeHidden() {
-		if(_negate) {
-			if(!_actual.renderer.enabled) {
-				printError('Expected ' + _actual.name + ' not to be hidden');
-			  _failed = true;
-			}
-		} else {
-			if(_actual.renderer.enabled) {
-				printError('Expected ' + _actual.name + ' to be hidden');
-			  _failed = true;
-			}
-		}
-		
-		return this;
-	}
+ function toBeVisible() {
+   if(_negate) {
+     if(_actual.renderer.enabled) {
+       printError('Expected ' + _actual.name + ' not to be visible');
+       _failed = true;
+     }
+   } else {
+     if(!_actual.renderer.enabled) {
+       printError('Expected ' + _actual.name + ' to be visible');
+       _failed = true;
+     }
+   }
+   
+   return this;
+ }
+ 
+ function toBeHidden() {
+   if(_negate) {
+     if(!_actual.renderer.enabled) {
+       printError('Expected ' + _actual.name + ' not to be hidden');
+       _failed = true;
+     }
+   } else {
+     if(_actual.renderer.enabled) {
+       printError('Expected ' + _actual.name + ' to be hidden');
+       _failed = true;
+     }
+   }
+   
+   return this;
+ }
   
   function not() {
     _negate = true;
@@ -205,3 +227,8 @@ class Matcher {
   var _failed;
   var _showErrors;
 }
+
+// This exists so that checks can be made against null in an object-oriented approach
+class Null {
+  function Null() {}
+};

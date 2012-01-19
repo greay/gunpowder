@@ -47,6 +47,18 @@ class specs extends gunpowder {
           });
         });
         
+        describe("toExist", function() {
+          it("is null", function() {
+            expect(match(null).not().toExist()).toPass();
+            expect(match(null).toExist()).toFail();
+          });
+
+          it("exists in scene", function() {
+            expect(match(_('box')).toExist()).toPass();
+            expect(match(_('box')).not().toExist()).toFail();
+          });
+        });
+
         describe('toEqual', function() {
           it('equals', function() {
             expect(match(1).toEqual(1)).toPass();
