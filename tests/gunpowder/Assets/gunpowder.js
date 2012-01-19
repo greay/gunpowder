@@ -1,5 +1,5 @@
 var _ = function(selector) { return new Selector(selector); };
-
+var loadScene = function(name) { sceneName = name; };
 var beforeEach = function(func) { beforesToRun.Push(func); };
 var context = function(name, func) { describe(name, func); };
 var describe = function(name, func) {
@@ -21,12 +21,14 @@ function run() {}
 static var testsToRun = new Array();
 static var beforesToRun = new Array();
 static var testsFinished = false;
+static var sceneName;
 
 function Start() {
 	if(!testsFinished) {
 		if(testsToRun.length == 0) {
 			run();
 			testsToRun.Reverse();
+			Start();
 		} else {
 			if(testsToRun.length == 1) { testsFinished = true; }
 			var nextTest = testsToRun.Pop();
@@ -34,8 +36,8 @@ function Start() {
 			  before();
 			}
 			nextTest['test']();
+			Application.LoadLevel(sceneName);
 		}
-		Application.LoadLevel('test');
 	}
 }
 

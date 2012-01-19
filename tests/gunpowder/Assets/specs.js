@@ -1,6 +1,10 @@
 class specs extends gunpowder {
   function run() {
     describe('gunpowder', function() {
+      beforeEach(function() {
+        loadScene('test');
+      });
+      
       describe('selector', function() {
         it('can find the game object', function() {
           expect(_('box')).toEqual(GameObject.Find('box'));
