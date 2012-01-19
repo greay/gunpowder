@@ -38,6 +38,8 @@ function Start() {
 			nextTest['test']();
 			Application.LoadLevel(sceneName);
 		}
+	} else {
+	  Debug.Log('Finished running specs!');
 	}
 }
 
