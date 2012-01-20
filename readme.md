@@ -20,5 +20,9 @@ https://www.pivotaltracker.com/projects/456391/
 - `toExist()`
 - `toBeTruthy()`
 - `toBeFalsy()`
+- `toEqual(object)`
+- `toHavePosition(x, y, z)`
+- `toBeVisible()`
+- `toBeHidden()`
 
 
