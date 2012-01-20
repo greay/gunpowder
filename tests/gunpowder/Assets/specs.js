@@ -7,7 +7,8 @@ class specs extends gunpowder {
       
       describe('selector', function() {
         it('can find the game object', function() {
-          expect(_('box')).toEqual(GameObject.Find('box'));
+          expect(match(_('box')).toEqual(GameObject.Find('box'))).toPass();
+          expect(match(_('box')).toEqual(GameObject.Find('ball'))).toFail();
         });
 
 				describe('actions', function() {

@@ -21,7 +21,7 @@ function run() {}
 
 static var testsToRun = new Array();
 static var beforesToRun = new Array();
-static var passCount = 0;
+static var testCount = 0;
 static var failCount = 0;
 static var failedExpectation = false;
 static var testsFinished = false;
@@ -38,7 +38,7 @@ function Start() {
     }
   } else {
     var passOrFail = failCount > 0 ? 'FAIL: ' : 'PASS: ';
-    Debug.Log(passOrFail + passCount + ' tests, ' + failCount + ' failures, ' + Time.time + ' secs.');
+    Debug.Log(passOrFail + testCount + ' tests, ' + failCount + ' failures, ' + Time.time + ' secs.');
   }
 }
 
@@ -70,7 +70,11 @@ class Matcher {
   function initialize(actual, options) {
     _negate = false;
     _failed = false;
-    _showErrors = options['showErrors'] && true;
+    _showErrors = true;
+    
+    if(options['showErrors'] != null) {
+      _showErrors = options['showErrors'];
+    }
     
     if (actual == null) {
       _actual = new Null();
@@ -249,6 +253,7 @@ function beginTests() {
   Debug.Log('Running Gunpowder specs...');
   run();
   testsToRun.Reverse();
+  testCount = testsToRun.length;
   Start();
 }
 
@@ -263,7 +268,5 @@ function updateTestResults() {
   if(failedExpectation) { 
     failCount++;
     failedExpectation = false;
-  } else {
-    passCount++;
   }
 }
