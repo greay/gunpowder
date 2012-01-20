@@ -16,31 +16,30 @@ var it = function(name, func) {
   testsToRun.Push({'befores': new Array(beforesToRun), 'test': func}); 
 };
 
+// Will be overridden by spec
 function run() {}
 
 static var testsToRun = new Array();
 static var beforesToRun = new Array();
+static var passCount = 0;
+static var failCount = 0;
+static var failedExpectation = false;
 static var testsFinished = false;
 static var sceneName;
 
 function Start() {
- if(!testsFinished) {
-   if(testsToRun.length == 0) {
-     run();
-     testsToRun.Reverse();
-     Start();
-   } else {
-     if(testsToRun.length == 1) { testsFinished = true; }
-     var nextTest = testsToRun.Pop();
-     for(var before in nextTest['befores']) {
-       before();
-     }
-     nextTest['test']();
-     Application.LoadLevel(sceneName);
-   }
- } else {
-   Debug.Log('Finished running specs!');
- }
+  if(!testsFinished) {
+    if(testsToRun.length == 0) {
+      beginTests();
+    } else {
+      runNextTest();
+      updateTestResults();
+      Application.LoadLevel(sceneName);
+    }
+  } else {
+    var passOrFail = failCount > 0 ? 'FAIL: ' : 'PASS: ';
+    Debug.Log(passOrFail + passCount + ' tests, ' + failCount + ' failures, ' + Time.time + ' secs.');
+  }
 }
 
 class Selector {
@@ -92,6 +91,7 @@ class Matcher {
   
   function printError(message) {
     if(_showErrors) {
+      gunpowder.failedExpectation = true;
       Debug.LogError(message);
     }
   }
@@ -220,12 +220,14 @@ class Matcher {
   
   function toPass() {
     if(_failed) {
+      gunpowder.failedExpectation = true;
       Debug.LogError('Expected to pass but failed');
     }
   }
   
   function toFail() {
     if(!_failed) {
+      gunpowder.failedExpectation = true;
       Debug.LogError('Expected to fail but passed');
     }
   }
@@ -240,3 +242,28 @@ class Matcher {
 class Null {
   function Null() {}
 };
+
+private
+
+function beginTests() {
+  Debug.Log('Running Gunpowder specs...');
+  run();
+  testsToRun.Reverse();
+  Start();
+}
+
+function runNextTest() {
+  if(testsToRun.length == 1) { testsFinished = true; }
+  var nextTest = testsToRun.Pop();
+  for(var before in nextTest['befores']) { before(); }
+  nextTest['test']();
+}
+
+function updateTestResults() {
+  if(failedExpectation) { 
+    failCount++;
+    failedExpectation = false;
+  } else {
+    passCount++;
+  }
+}
