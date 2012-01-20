@@ -10,10 +10,10 @@ var describe = function(name, func) {
     beforesToRun.Pop(); 
   }
 };
-var expect = function(actual) { return new Matcher(actual, true); };
-var match = function(actual) { return new Matcher(actual, false); };
+var expect = function(actual) { return new Matcher(actual); };
+var match = function(actual) { return new Matcher(actual, {'showErrors': false}); };
 var it = function(name, func) {
-  testsToRun.Push({'befores' : new Array(beforesToRun), 'test' : func}); 
+  testsToRun.Push({'befores': new Array(beforesToRun), 'test': func}); 
 };
 
 function run() {}
@@ -60,10 +60,18 @@ class Selector {
 }
 
 class Matcher {
-  function Matcher(actual, showErrors) {
+  function Matcher(actual, options) {
+    initialize(actual, options);
+  }
+  
+  function Matcher(actual) {
+    initialize(actual, {});
+  }
+  
+  function initialize(actual, options) {
     _negate = false;
     _failed = false;
-    _showErrors = showErrors;
+    _showErrors = options['showErrors'] && true;
     
     if (actual == null) {
       _actual = new Null();
