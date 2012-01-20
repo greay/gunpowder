@@ -12,9 +12,14 @@ var describe = function(name, func) {
 };
 var expect = function(actual) { return new Matcher(actual); };
 var match = function(actual) { return new Matcher(actual, {'showErrors': false}); };
-var it = function(name, func) {
+function it(name) { 
+  testCount++;
+  pendingCount++; 
+}
+function xit(name, func) { it(name); }
+function it(name, func) {
   testsToRun.Push({'befores': new Array(beforesToRun), 'test': func}); 
-};
+}
 
 // Will be overridden by spec
 function run() {}
@@ -23,6 +28,7 @@ static var testsToRun = new Array();
 static var beforesToRun = new Array();
 static var testCount = 0;
 static var failCount = 0;
+static var pendingCount = 0;
 static var failedExpectation = false;
 static var testsFinished = false;
 static var sceneName;
@@ -38,7 +44,7 @@ function Start() {
     }
   } else {
     var passOrFail = failCount > 0 ? 'FAIL: ' : 'PASS: ';
-    Debug.Log(passOrFail + testCount + ' tests, ' + failCount + ' failures, ' + Time.time + ' secs.');
+    Debug.Log(passOrFail + testCount + ' tests, ' + failCount + ' failures, ' + pendingCount + ' pending, ' + Time.time + ' secs.');
   }
 }
 
@@ -253,7 +259,7 @@ function beginTests() {
   Debug.Log('Running Gunpowder specs...');
   run();
   testsToRun.Reverse();
-  testCount = testsToRun.length;
+  testCount += testsToRun.length;
   Start();
 }
 

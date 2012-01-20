@@ -5,6 +5,14 @@ class specs extends gunpowder {
         loadScene('test');
       });
       
+      describe('pending tests', function() {
+        it('will test something');
+        
+        xit('is failing', function() {
+          expect(match(1).toEqual(5)).toPass();
+        });
+      });
+      
       describe('selector', function() {
         it('can find the game object', function() {
           expect(match(_('box')).toEqual(GameObject.Find('box'))).toPass();
