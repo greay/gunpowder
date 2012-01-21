@@ -12,6 +12,7 @@ var describe = function(name, func) {
 };
 var expect = function(actual) { return new Matcher(actual); };
 var match = function(actual) { return new Matcher(actual, {'showErrors': false}); };
+
 function it(name) { 
   testCount++;
   pendingCount++; 
@@ -19,6 +20,14 @@ function it(name) {
 function xit(name, func) { it(name); }
 function it(name, func) {
   testsToRun.Push({'befores': new Array(beforesToRun), 'test': func}); 
+}
+
+function printError(message) {
+  Debug.LogError(message);
+}
+
+function printInfo(message) {
+  Debug.Log(message);
 }
 
 // Will be overridden by spec
@@ -44,7 +53,7 @@ function Start() {
     }
   } else {
     var passOrFail = failCount > 0 ? 'FAIL: ' : 'PASS: ';
-    Debug.Log(passOrFail + testCount + ' tests, ' + failCount + ' failures, ' + pendingCount + ' pending, ' + Time.time + ' secs.');
+    printInfo(passOrFail + testCount + ' tests, ' + failCount + ' failures, ' + pendingCount + ' pending, ' + Time.time + ' secs.');
   }
 }
 
@@ -102,7 +111,7 @@ class Matcher {
   function printError(message) {
     if(_showErrors) {
       gunpowder.failedExpectation = true;
-      Debug.LogError(message);
+      printError(message);
     }
   }
   
@@ -231,14 +240,14 @@ class Matcher {
   function toPass() {
     if(_failed) {
       gunpowder.failedExpectation = true;
-      Debug.LogError('Expected to pass but failed');
+      printError('Expected to pass but failed');
     }
   }
   
   function toFail() {
     if(!_failed) {
       gunpowder.failedExpectation = true;
-      Debug.LogError('Expected to fail but passed');
+      printError('Expected to fail but passed');
     }
   }
   
@@ -256,7 +265,7 @@ class Null {
 private
 
 function beginTests() {
-  Debug.Log('Running Gunpowder specs...');
+  printInfo('Running Gunpowder specs...');
   run();
   testsToRun.Reverse();
   testCount += testsToRun.length;
