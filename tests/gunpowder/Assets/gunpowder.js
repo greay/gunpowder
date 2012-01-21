@@ -22,14 +22,6 @@ function it(name, func) {
   testsToRun.Push({'befores': new Array(beforesToRun), 'test': func}); 
 }
 
-function printError(message) {
-  Debug.LogError(message);
-}
-
-function printInfo(message) {
-  Debug.Log(message);
-}
-
 // Will be overridden by spec
 function run() {}
 
@@ -53,7 +45,7 @@ function Start() {
     }
   } else {
     var passOrFail = failCount > 0 ? 'FAIL: ' : 'PASS: ';
-    printInfo(passOrFail + testCount + ' tests, ' + failCount + ' failures, ' + pendingCount + ' pending, ' + Time.time + ' secs.');
+    Debug.Log(passOrFail + testCount + ' tests, ' + failCount + ' failures, ' + pendingCount + ' pending, ' + Time.time + ' secs.');
   }
 }
 
@@ -108,11 +100,12 @@ class Matcher {
     }
   }
   
-  function printError(message) {
+  function failed(message) {
     if(_showErrors) {
       gunpowder.failedExpectation = true;
-      printError(message);
+      Debug.LogError(message);
     }
+    _failed = true;
   }
   
   function toExist() {
@@ -120,13 +113,11 @@ class Matcher {
 
     if(_negate) {
       if(actual_exists) {
-        printError("Expected "+ _actual +" not to exist");
-        _failed = true;
+        failed("Expected "+ _actual +" not to exist");
       }
     } else {
       if(!actual_exists) {
-        printError("Expected "+ _actual +" to exist");
-        _failed = true;
+        failed("Expected "+ _actual +" to exist");
       }
     }
 
@@ -136,13 +127,11 @@ class Matcher {
   function toBeTruthy() {
     if(_negate) {
       if(_actual == true) {
-        printError('Expected ' + _actual + ' not to be truthy');
-        _failed = true;
+        failed('Expected ' + _actual + ' not to be truthy');
       }
     } else {
       if(_actual != true) {
-        printError('Expected ' + _actual + ' to be truthy');
-        _failed = true;
+        failed('Expected ' + _actual + ' to be truthy');
       }
     }
     
@@ -152,13 +141,11 @@ class Matcher {
   function toBeFalsy() {
     if(_negate) {
       if(_actual == false) {
-        printError('Expected ' + _actual + ' not to be falsy');
-        _failed = true;
+        failed('Expected ' + _actual + ' not to be falsy');
       }
     } else {
       if(_actual != false) {
-        printError('Expected ' + _actual + ' to be falsy');
-        _failed = true;
+        failed('Expected ' + _actual + ' to be falsy');
       }
     }
     
@@ -168,13 +155,11 @@ class Matcher {
   function toEqual(expected) {
     if(_negate) {
       if(_actual == expected) {
-        printError('Expected ' + _actual + ' not to equal ' + expected);
-        _failed = true;
+        failed('Expected ' + _actual + ' not to equal ' + expected);
       }
     } else {
       if(_actual != expected) {
-        printError('Expected ' + _actual + ' to equal ' + expected);
-        _failed = true;
+        failed('Expected ' + _actual + ' to equal ' + expected);
       }
     }
     
@@ -187,13 +172,11 @@ class Matcher {
     
     if(_negate) {
       if(Vector3.Distance(actualPosition, expectedPosition) == 0) {
-        printError('Expected ' + _actual.name + ' not to have position ' + expectedPosition + ' but got ' + actualPosition);
-        _failed = true;
+        failed('Expected ' + _actual.name + ' not to have position ' + expectedPosition + ' but got ' + actualPosition);
       }
     } else {
       if(Vector3.Distance(actualPosition, expectedPosition) != 0) {
-        printError('Expected ' + _actual.name + ' to have position ' + expectedPosition + ' but got ' + actualPosition);
-        _failed = true;
+        failed('Expected ' + _actual.name + ' to have position ' + expectedPosition + ' but got ' + actualPosition);
       } 
     }
     
@@ -203,13 +186,11 @@ class Matcher {
  function toBeVisible() {
    if(_negate) {
      if(_actual.renderer.enabled) {
-       printError('Expected ' + _actual.name + ' not to be visible');
-       _failed = true;
+       failed('Expected ' + _actual.name + ' not to be visible');
      }
    } else {
      if(!_actual.renderer.enabled) {
-       printError('Expected ' + _actual.name + ' to be visible');
-       _failed = true;
+       failed('Expected ' + _actual.name + ' to be visible');
      }
    }
    
@@ -219,13 +200,11 @@ class Matcher {
  function toBeHidden() {
    if(_negate) {
      if(!_actual.renderer.enabled) {
-       printError('Expected ' + _actual.name + ' not to be hidden');
-       _failed = true;
+       failed('Expected ' + _actual.name + ' not to be hidden');
      }
    } else {
      if(_actual.renderer.enabled) {
-       printError('Expected ' + _actual.name + ' to be hidden');
-       _failed = true;
+       failed('Expected ' + _actual.name + ' to be hidden');
      }
    }
    
@@ -240,14 +219,14 @@ class Matcher {
   function toPass() {
     if(_failed) {
       gunpowder.failedExpectation = true;
-      printError('Expected to pass but failed');
+      failed('Expected to pass but failed');
     }
   }
   
   function toFail() {
     if(!_failed) {
       gunpowder.failedExpectation = true;
-      printError('Expected to fail but passed');
+      failed('Expected to fail but passed');
     }
   }
   
@@ -265,7 +244,7 @@ class Null {
 private
 
 function beginTests() {
-  printInfo('Running Gunpowder specs...');
+  Debug.Log('Running Gunpowder specs...');
   run();
   testsToRun.Reverse();
   testCount += testsToRun.length;
