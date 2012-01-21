@@ -218,14 +218,12 @@ class Matcher {
   
   function toPass() {
     if(_failed) {
-      gunpowder.failedExpectation = true;
       failed('Expected to pass but failed');
     }
   }
   
   function toFail() {
     if(!_failed) {
-      gunpowder.failedExpectation = true;
       failed('Expected to fail but passed');
     }
   }
