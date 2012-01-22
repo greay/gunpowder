@@ -65,7 +65,10 @@ class Selector {
    return _gameObject;
  }
  
- var simulate = new Simulate();
+ function simulate() { 
+   return new Simulate(); 
+ }
+ 
  var _gameObject;
 }
 
@@ -81,8 +84,7 @@ class Simulate {
 
 function Update() {
   if(simulationsToRun.length != 0 || currentSimulation != {}) {
-    if(currentSimulation == {})
-      currentSimulation = simulationsToRun.Shift();
+    if(currentSimulation == {}) { currentSimulation = simulationsToRun.Shift(); }
       
     if(currentSimulation['duration'] != 0) {
       currentSimulation['duration'] -= 1;
