@@ -6,7 +6,7 @@ class Simulate {
       'callback': callback
     });
   }
-  
+
   function buttonPress(button, duration, callback) {
     Gunpowder.simulationsToRun.Push({
       'duration': duration,
@@ -14,7 +14,7 @@ class Simulate {
       'callback': callback
     });
   }
-  
+
   function keyPress(key, duration, callback) {
     Gunpowder.simulationsToRun.Push({
       'duration': duration,
