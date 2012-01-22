@@ -20,38 +20,56 @@ class Specs extends Gunpowder {
         });
         
         describe('simulate', function() {
-          describe('movement', function() {
+          describe('axis', function() {
             it('moves forward', function() {
-              _().simulate().movement('forward', 5, function() {
+              _().simulate().axis('forward', 5, function() {
                 expect(_('player')).toHavePosition(2.1, 0.5, -13.0, 0.5);
               });
             });
             
             it('moves backwards', function() {
-              _().simulate().movement('backward', 5, function() {
+              _().simulate().axis('backward', 5, function() {
                 expect(_('player')).toHavePosition(1.1, 0.5, -13.0, 0.5);
               });
             });
             
             it('moves right', function() {
-              _().simulate().movement('right', 5, function() {
+              _().simulate().axis('right', 5, function() {
                 expect(_('player')).toHavePosition(1.6, 0.5, -12.5, 0.5);
               });
             });
             
             it('moves left', function() {
-              _().simulate().movement('left', 5, function() {
+              _().simulate().axis('left', 5, function() {
                 expect(_('player')).toHavePosition(1.6, 0.5, -13.5, 0.5);
               });
             });
 
             it('can run multiple movements in a single test', function() {
-              _().simulate().movement('backward', 5, function() {
+              _().simulate().axis('backward', 5, function() {
                 expect(_('player')).toHavePosition(1.1, 0.5, -13.0, 0.5);
               });
               
-              _().simulate().movement('left', 5, function() {
+              _().simulate().axis('left', 5, function() {
                 expect(_('player')).toHavePosition(1.1, 0.5, -14.0, 0.5);
+              });
+            });
+          });
+        
+          describe('buttonPress', function() {
+            it('presses the "control" button', function() {
+              expect(_('ball')).toBeVisible();
+              _().simulate().buttonPress('Fire1', 1, function() {
+                expect(_('ball')).toBeHidden();
+              });
+            });
+          });
+          
+          describe('keyPress', function() {
+            it('presses the "control" key', function() {
+              expect(_('box')).toBeVisible();
+              _().simulate().keyPress('h', 1, function() {
+                expect(_('box')).toBeHidden();
               });
             });
           });

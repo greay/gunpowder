@@ -19,4 +19,22 @@ class Decorator {
       return Input.GetAxis(axis);
     }
   }
+  
+  function GetButton(buttonName) {
+    if(Gunpowder.currentSimulation != {}) {
+      var button = Gunpowder.currentSimulation['button'];
+      return button == buttonName ? true : false;
+    } else {
+      return Input.GetButton(buttonName);
+    }
+  }
+  
+  function GetKey(keyName) {
+    if(Gunpowder.currentSimulation != {}) {
+      var key = Gunpowder.currentSimulation['key'];
+      return key == keyName ? true : false;
+    } else {
+      return Input.GetKey(keyName);
+    }
+  }
 }
