@@ -26,8 +26,10 @@ function it(name, func) {
 // Will be overridden by spec
 function run() {}
 
+static var currentSimulation = {};
 static var testsToRun = new Array();
 static var beforesToRun = new Array();
+static var simulationsToRun = new Array();
 static var testCount = 0;
 static var failCount = 0;
 static var pendingCount = 0;
@@ -42,7 +44,7 @@ function Start() {
     } else {
       runNextTest();
       updateTestResults();
-      if(!gunpowder.simulation) { resetScene(); }
+      if(gunpowder.simulationsToRun.length == 0) { resetScene(); }
     }
   } else {
     var passOrFail = failCount > 0 ? 'FAIL: ' : 'PASS: ';
@@ -64,58 +66,53 @@ class Selector {
  }
  
  var simulate = new Simulate();
- 
  var _gameObject;
 }
 
-static var simulation = false;
-static var simulationDuration;
-static var simulationCallback;
-static var simulationDirection;
-
 class Simulate {
   function movement(direction, duration, callback) {
-    gunpowder.simulation = true;
-    gunpowder.simulationDuration = duration;
-    gunpowder.simulationCallback = callback;
-    gunpowder.simulationDirection = direction;
+    gunpowder.simulationsToRun.Push({
+      'duration': duration,
+      'direction': direction,
+      'callback': callback
+    });
   }
 }
 
 function Update() {
-  if(gunpowder.simulation) {
-    if(gunpowder.simulationDuration != 0) {
-      gunpowder.simulationDuration--;
+  if(simulationsToRun.length != 0 || currentSimulation != {}) {
+    if(currentSimulation == {})
+      currentSimulation = simulationsToRun.Shift();
+      
+    if(currentSimulation['duration'] != 0) {
+      currentSimulation['duration'] -= 1;
     } else {
-      gunpowder.simulationCallback();
-      gunpowder.simulation = false;
-      resetScene();
+      currentSimulation['callback']();
+      currentSimulation = {};
+      if(simulationsToRun.length == 0) {
+        resetScene();
+      }
     }
   }
 }
 
-function resetScene() {
-  Application.LoadLevel(sceneName);
-}
-
-static var Input = new Wrapper();
-
 class Wrapper {
   function GetAxis(axis) {
-    var direction = 0.0;
+    var speed = 0.0;
     
-    if(gunpowder.simulationDirection == 'forward' && axis == 'Vertical') {
-      direction = 0.1;
-    } else if(gunpowder.simulationDirection == 'backward' && axis == 'Vertical') {
-      direction = -0.1;
-    } else if(gunpowder.simulationDirection == 'left' && axis == 'Horizontal') {
-      direction = -0.1;
-    } else if(gunpowder.simulationDirection == 'right' && axis == 'Horizontal') {
-      direction = 0.1;
-    }
-    
-    if(gunpowder.simulation) {
-      return direction;
+    if(gunpowder.currentSimulation != {}) {
+      var direction = gunpowder.currentSimulation['direction'];
+      if(direction == 'forward' && axis == 'Vertical') {
+        speed = 0.1;
+      } else if(direction == 'backward' && axis == 'Vertical') {
+        speed = -0.1;
+      } else if(direction == 'left' && axis == 'Horizontal') {
+        speed = -0.1;
+      } else if(direction == 'right' && axis == 'Horizontal') {
+        speed = 0.1;
+      }
+      
+      return speed;
     } else {
       return Input.GetAxis(axis);
     }
@@ -300,19 +297,24 @@ class Null {
   function Null() {}
 };
 
+static var Input = new Wrapper();
+
 private
+
+function resetScene() {
+  Application.LoadLevel(sceneName);
+}
 
 function beginTests() {
   Debug.Log('Running Gunpowder specs...');
   run();
-  testsToRun.Reverse();
   testCount += testsToRun.length;
   Start();
 }
 
 function runNextTest() {
   if(testsToRun.length == 1) { testsFinished = true; }
-  var nextTest = testsToRun.Pop();
+  var nextTest = testsToRun.Shift();
   for(var before in nextTest['befores']) { before(); }
   nextTest['test']();
 }

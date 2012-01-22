@@ -23,35 +23,35 @@ class specs extends gunpowder {
           describe('movement', function() {
             it('moves forward', function() {
               _().simulate.movement('forward', 5, function() {
-                expect(_('player')).toHavePosition(2.2, 0.5, -13.0, 0.1);
+                expect(_('player')).toHavePosition(2.1, 0.5, -13.0, 0.5);
               });
             });
             
             it('moves backwards', function() {
               _().simulate.movement('backward', 5, function() {
-                expect(_('player')).toHavePosition(1.0, 0.5, -13.0, 0.1);
+                expect(_('player')).toHavePosition(1.1, 0.5, -13.0, 0.5);
               });
             });
             
             it('moves right', function() {
               _().simulate.movement('right', 5, function() {
-                expect(_('player')).toHavePosition(1.6, 0.5, -12.4, 0.1);
+                expect(_('player')).toHavePosition(1.6, 0.5, -12.5, 0.5);
               });
             });
             
             it('moves left', function() {
               _().simulate.movement('left', 5, function() {
-                expect(_('player')).toHavePosition(1.6, 0.5, -13.6, 0.1);
+                expect(_('player')).toHavePosition(1.6, 0.5, -13.5, 0.5);
               });
             });
-            
-            xit('can run multiple movements in a single test', function() {
-              _().simulate.movement('backward', 50, function() {
-                expect(_('player')).toHavePosition(1.0, 0.5, -13.0, 0.1);
+
+            it('can run multiple movements in a single test', function() {
+              _().simulate.movement('backward', 5, function() {
+                expect(_('player')).toHavePosition(1.1, 0.5, -13.0, 0.5);
               });
               
-              _().simulate.movement('forward', 50, function() {
-                expect(_('player')).toHavePosition(2.2, 0.5, -13.0, 0.1);
+              _().simulate.movement('left', 5, function() {
+                expect(_('player')).toHavePosition(1.1, 0.5, -14.0, 0.5);
               });
             });
           });
