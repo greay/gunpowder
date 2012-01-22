@@ -1,4 +1,4 @@
-class specs extends gunpowder {
+class Specs extends Gunpowder {
   function run() {
     describe('gunpowder', function() {
       beforeEach(function() {
