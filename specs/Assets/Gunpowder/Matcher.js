@@ -36,7 +36,7 @@ class Matcher {
   function failed(message) {
     if(_showErrors) {
       Gunpowder.failedExpectation = true;
-      Debug.LogError(message);
+      Debug.LogError(Gunpowder.currentSpecContext + ' > ' + message);
     }
     _failed = true;
   }
@@ -46,11 +46,11 @@ class Matcher {
 
     if(_negate) {
       if(actual_exists) {
-        failed("Expected "+ _actual +" not to exist");
+        failed("expected "+ _actual +" not to exist");
       }
     } else {
       if(!actual_exists) {
-        failed("Expected "+ _actual +" to exist");
+        failed("expected "+ _actual +" to exist");
       }
     }
 
@@ -60,11 +60,11 @@ class Matcher {
   function toBeTruthy() {
     if(_negate) {
       if(_actual == true) {
-        failed('Expected ' + _actual + ' not to be truthy');
+        failed('expected ' + _actual + ' not to be truthy');
       }
     } else {
       if(_actual != true) {
-        failed('Expected ' + _actual + ' to be truthy');
+        failed('expected ' + _actual + ' to be truthy');
       }
     }
 
@@ -74,11 +74,11 @@ class Matcher {
   function toBeFalsy() {
     if(_negate) {
       if(_actual == false) {
-        failed('Expected ' + _actual + ' not to be falsy');
+        failed('expected ' + _actual + ' not to be falsy');
       }
     } else {
       if(_actual != false) {
-        failed('Expected ' + _actual + ' to be falsy');
+        failed('expected ' + _actual + ' to be falsy');
       }
     }
 
@@ -88,11 +88,11 @@ class Matcher {
   function toEqual(expected) {
     if(_negate) {
       if(_actual == expected) {
-        failed('Expected ' + _actual + ' not to equal ' + expected);
+        failed('expected ' + _actual + ' not to equal ' + expected);
       }
     } else {
       if(_actual != expected) {
-        failed('Expected ' + _actual + ' to equal ' + expected);
+        failed('expected ' + _actual + ' to equal ' + expected);
       }
     }
 
@@ -109,11 +109,11 @@ class Matcher {
 
     if(_negate) {
       if(Vector3.Distance(actualPosition, expectedPosition) <= within) {
-        failed('Expected ' + _actual.name + ' not to have position ' + expectedPosition + ' but got ' + actualPosition);
+        failed('expected ' + _actual.name + ' not to have position ' + expectedPosition + ' but got ' + actualPosition);
       }
     } else {
       if(Vector3.Distance(actualPosition, expectedPosition) > within) {
-        failed('Expected ' + _actual.name + ' to have position ' + expectedPosition + ' but got ' + actualPosition);
+        failed('expected ' + _actual.name + ' to have position ' + expectedPosition + ' but got ' + actualPosition);
       } 
     }
 
@@ -123,11 +123,11 @@ class Matcher {
   function toBeVisible() {
     if(_negate) {
       if(_actual.renderer.enabled) {
-        failed('Expected ' + _actual.name + ' not to be visible');
+        failed('expected ' + _actual.name + ' not to be visible');
       }
     } else {
       if(!_actual.renderer.enabled) {
-        failed('Expected ' + _actual.name + ' to be visible');
+        failed('expected ' + _actual.name + ' to be visible');
       }
     }
 
@@ -137,11 +137,11 @@ class Matcher {
   function toBeHidden() {
     if(_negate) {
       if(!_actual.renderer.enabled) {
-        failed('Expected ' + _actual.name + ' not to be hidden');
+        failed('expected ' + _actual.name + ' not to be hidden');
       }
     } else {
       if(_actual.renderer.enabled) {
-        failed('Expected ' + _actual.name + ' to be hidden');
+        failed('expected ' + _actual.name + ' to be hidden');
       }
     }
 
@@ -155,13 +155,13 @@ class Matcher {
 
   function toPass() {
     if(_failed) {
-      failed('Expected to pass but failed');
+      failed('expected to pass but failed');
     }
   }
 
   function toFail() {
     if(!_failed) {
-      failed('Expected to fail but passed');
+      failed('expected to fail but passed');
     }
   }
 

@@ -5,7 +5,7 @@ class Specs extends Gunpowder {
         loadScene('test');
       });
 
-      describe('pending tests', function() {
+      describe('pending specs', function() {
         it('will test something');
 
         xit('is failing', function() {
@@ -45,7 +45,7 @@ class Specs extends Gunpowder {
               });
             });
 
-            it('can run multiple movements in a single test', function() {
+            it('can run multiple movements in a single spec', function() {
               _().simulate().axis('backward', 5, function() {
                 expect(_('player')).toHavePosition(1.1, 0.5, -13.0, 0.5);
               });
@@ -188,7 +188,7 @@ class Specs extends Gunpowder {
       });
 
       describe('resetting the scene', function() {
-        context('a test finishes', function() {
+        context('a spec finishes', function() {
           var boxPosition = _('box').getGameObject().transform.position;
           var ballPosition = _('ball').getGameObject().transform.position;
 
