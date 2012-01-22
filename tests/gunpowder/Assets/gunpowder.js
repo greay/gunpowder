@@ -1,4 +1,5 @@
-var _ = function(selector) { return new Selector(selector); };
+function _() { return new Selector(''); }
+function _(selector) { return new Selector(selector); }
 var loadScene = function(name) { sceneName = name; };
 var beforeEach = function(func) { beforesToRun.Push(func); };
 var context = function(name, func) { describe(name, func); };
@@ -41,7 +42,7 @@ function Start() {
     } else {
       runNextTest();
       updateTestResults();
-      Application.LoadLevel(sceneName);
+      if(!gunpowder.simulation) { resetScene(); }
     }
   } else {
     var passOrFail = failCount > 0 ? 'FAIL: ' : 'PASS: ';
@@ -62,7 +63,63 @@ class Selector {
    return _gameObject;
  }
  
+ var simulate = new Simulate();
+ 
  var _gameObject;
+}
+
+static var simulation = false;
+static var simulationDuration;
+static var simulationCallback;
+static var simulationDirection;
+
+class Simulate {
+  function movement(direction, duration, callback) {
+    gunpowder.simulation = true;
+    gunpowder.simulationDuration = duration;
+    gunpowder.simulationCallback = callback;
+    gunpowder.simulationDirection = direction;
+  }
+}
+
+function Update() {
+  if(gunpowder.simulation) {
+    if(gunpowder.simulationDuration != 0) {
+      gunpowder.simulationDuration--;
+    } else {
+      gunpowder.simulationCallback();
+      gunpowder.simulation = false;
+      resetScene();
+    }
+  }
+}
+
+function resetScene() {
+  Application.LoadLevel(sceneName);
+}
+
+static var Input = new Wrapper();
+
+class Wrapper {
+  function GetAxis(axis) {
+    var direction = 0.0;
+    
+    if(gunpowder.simulationDirection == 'forward' && axis == 'Vertical') {
+      direction = 0.1;
+    } else if(gunpowder.simulationDirection == 'backward' && axis == 'Vertical') {
+      direction = -0.1;
+    } else if(gunpowder.simulationDirection == 'left' && axis == 'Horizontal') {
+      direction = -0.1;
+    } else if(gunpowder.simulationDirection == 'right' && axis == 'Horizontal') {
+      direction = 0.1;
+    }
+    
+    if(gunpowder.simulation) {
+      return direction;
+    } else {
+      return Input.GetAxis(axis);
+    }
+  }
 }
 
 class Matcher {
@@ -167,15 +224,19 @@ class Matcher {
   }
   
   function toHavePosition(expectedX, expectedY, expectedZ) {
+    return toHavePosition(expectedX, expectedY, expectedZ, 0.0);
+  }
+  
+  function toHavePosition(expectedX, expectedY, expectedZ, within) {
     var actualPosition = _actual.transform.position;
     var expectedPosition = new Vector3(expectedX, expectedY, expectedZ);
     
     if(_negate) {
-      if(Vector3.Distance(actualPosition, expectedPosition) == 0) {
+      if(Vector3.Distance(actualPosition, expectedPosition) <= within) {
         failed('Expected ' + _actual.name + ' not to have position ' + expectedPosition + ' but got ' + actualPosition);
       }
     } else {
-      if(Vector3.Distance(actualPosition, expectedPosition) != 0) {
+      if(Vector3.Distance(actualPosition, expectedPosition) > within) {
         failed('Expected ' + _actual.name + ' to have position ' + expectedPosition + ' but got ' + actualPosition);
       } 
     }

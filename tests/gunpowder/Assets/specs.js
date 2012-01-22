@@ -18,6 +18,44 @@ class specs extends gunpowder {
           expect(match(_('box')).toEqual(GameObject.Find('box'))).toPass();
           expect(match(_('box')).toEqual(GameObject.Find('ball'))).toFail();
         });
+        
+        describe('simulate', function() {
+          describe('movement', function() {
+            it('moves forward', function() {
+              _().simulate.movement('forward', 5, function() {
+                expect(_('player')).toHavePosition(2.2, 0.5, -13.0, 0.1);
+              });
+            });
+            
+            it('moves backwards', function() {
+              _().simulate.movement('backward', 5, function() {
+                expect(_('player')).toHavePosition(1.0, 0.5, -13.0, 0.1);
+              });
+            });
+            
+            it('moves right', function() {
+              _().simulate.movement('right', 5, function() {
+                expect(_('player')).toHavePosition(1.6, 0.5, -12.4, 0.1);
+              });
+            });
+            
+            it('moves left', function() {
+              _().simulate.movement('left', 5, function() {
+                expect(_('player')).toHavePosition(1.6, 0.5, -13.6, 0.1);
+              });
+            });
+            
+            xit('can run multiple movements in a single test', function() {
+              _().simulate.movement('backward', 50, function() {
+                expect(_('player')).toHavePosition(1.0, 0.5, -13.0, 0.1);
+              });
+              
+              _().simulate.movement('forward', 50, function() {
+                expect(_('player')).toHavePosition(2.2, 0.5, -13.0, 0.1);
+              });
+            });
+          });
+        });
 
 				describe('actions', function() {
 					describe('moveTo', function() {
