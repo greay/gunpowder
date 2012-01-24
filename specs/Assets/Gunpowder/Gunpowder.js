@@ -17,7 +17,7 @@ function _() {
   return new Selector(''); 
 }
 
-function _(selector) { 
+function find(selector) { 
   return new Selector(selector); 
 }
 
