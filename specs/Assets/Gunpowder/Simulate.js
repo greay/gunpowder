@@ -1,5 +1,5 @@
 class Simulate {
-  function axis(direction, duration, callback) {
+  function move(direction, duration, callback) {
     Gunpowder.simulationsToRun.Push({
       'duration': duration,
       'direction': direction,

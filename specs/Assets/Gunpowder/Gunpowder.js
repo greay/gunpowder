@@ -21,6 +21,19 @@ function find(selector) {
   return new Selector(selector); 
 }
 
+// Simulate methods
+function move(direction, duration, callback) {
+  new Simulate().move(direction, duration, callback);
+}
+
+function pressButton(button, duration, callback) {
+  new Simulate().buttonPress(button, duration, callback);
+}
+
+function pressKey(key, duration, callback) {
+  new Simulate().keyPress(key, duration, callback);
+}
+
 // Spec DSL
 function loadScene(name) { 
   sceneName = name; 

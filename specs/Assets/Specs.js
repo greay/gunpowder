@@ -22,35 +22,35 @@ class Specs extends Gunpowder {
         describe('simulate', function() {
           describe('axis', function() {
             it('moves forward', function() {
-              _().simulate().axis('forward', 5, function() {
+              move('forward', 5, function() {
                 expect(find('player')).toHavePosition(2.1, 0.5, -13.0, 0.5);
               });
             });
 
             it('moves backwards', function() {
-              _().simulate().axis('backward', 5, function() {
+              move('backward', 5, function() {
                 expect(find('player')).toHavePosition(1.1, 0.5, -13.0, 0.5);
               });
             });
 
             it('moves right', function() {
-              _().simulate().axis('right', 5, function() {
+              move('right', 5, function() {
                 expect(find('player')).toHavePosition(1.6, 0.5, -12.5, 0.5);
               });
             });
 
             it('moves left', function() {
-              _().simulate().axis('left', 5, function() {
+              move('left', 5, function() {
                 expect(find('player')).toHavePosition(1.6, 0.5, -13.5, 0.5);
               });
             });
 
             it('can run multiple movements in a single spec', function() {
-              _().simulate().axis('backward', 5, function() {
+              move('backward', 5, function() {
                 expect(find('player')).toHavePosition(1.1, 0.5, -13.0, 0.5);
               });
 
-              _().simulate().axis('left', 5, function() {
+              move('left', 5, function() {
                 expect(find('player')).toHavePosition(1.1, 0.5, -14.0, 0.5);
               });
             });
@@ -59,7 +59,7 @@ class Specs extends Gunpowder {
           describe('buttonPress', function() {
             it('presses the "control" button', function() {
               expect(find('ball')).toBeVisible();
-              _().simulate().buttonPress('Fire1', 1, function() {
+              pressButton('Fire1', 1, function() {
                 expect(find('ball')).toBeHidden();
               });
             });
@@ -68,7 +68,7 @@ class Specs extends Gunpowder {
           describe('keyPress', function() {
             it('presses the "control" key', function() {
               expect(find('box')).toBeVisible();
-              _().simulate().keyPress('h', 1, function() {
+              pressKey('h', 1, function() {
                 expect(find('box')).toBeHidden();
               });
             });
