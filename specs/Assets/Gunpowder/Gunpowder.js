@@ -13,10 +13,6 @@ static var specsFinished = false;
 static var sceneName;
 
 // Selector methods
-function _() { 
-  return new Selector(''); 
-}
-
 function find(selector) { 
   return new Selector(selector); 
 }
