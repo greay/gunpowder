@@ -30,6 +30,10 @@ function pressKey(key, duration, callback) {
   new Simulate().keyPress(key, duration, callback);
 }
 
+function waits(milliseconds, callback) {
+  new Simulate().waits(milliseconds, callback);
+}
+
 // Spec DSL
 function loadScene(name) { 
   sceneName = name; 

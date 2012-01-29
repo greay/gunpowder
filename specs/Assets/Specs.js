@@ -13,78 +13,6 @@ class Specs extends Gunpowder {
         });
       });
 
-      describe('helpers', function() {
-        describe('find', function() {
-          it('can find the game object', function() {
-            expect(match(find('box')).toEqual(GameObject.Find('box'))).toPass();
-            expect(match(find('box')).toEqual(GameObject.Find('ball'))).toFail();
-          });
-        });
-
-        describe('move', function() {
-          it('moves forward', function() {
-            move('forward', 100, function() {
-              expect(find('player')).toHavePosition(2.1, 0.5, -13.0, 0.5);
-            });
-          });
-
-          it('moves backwards', function() {
-            move('backward', 100, function() {
-              expect(find('player')).toHavePosition(1.1, 0.5, -13.0, 0.5);
-            });
-          });
-
-          it('moves right', function() {
-            move('right', 100, function() {
-              expect(find('player')).toHavePosition(1.6, 0.5, -12.5, 0.5);
-            });
-          });
-
-          it('moves left', function() {
-            move('left', 100, function() {
-              expect(find('player')).toHavePosition(1.6, 0.5, -13.5, 0.5);
-            });
-          });
-
-          it('can run multiple movements in a single spec', function() {
-            move('backward', 100, function() {
-              expect(find('player')).toHavePosition(1.1, 0.5, -13.0, 0.5);
-            });
-
-            move('left', 100, function() {
-              expect(find('player')).toHavePosition(1.1, 0.5, -14.0, 0.5);
-            });
-          });
-        });
-
-        describe('buttonPress', function() {
-          it('presses the "control" button', function() {
-            expect(find('ball')).toBeVisible();
-            pressButton('Fire1', 500, function() {
-              expect(find('ball')).toBeHidden();
-            });
-          });
-        });
-
-        describe('keyPress', function() {
-          it('presses the "control" key', function() {
-            expect(find('box')).toBeVisible();
-            pressKey('h', 500, function() {
-              expect(find('box')).toBeHidden();
-            });
-          });
-        });
-
-        describe('moveTo', function() {
-          it('moves the object to the correct location', function() {
-            find('ball').moveTo(0, 3, 2);
-            expect(find('ball').getGameObject().transform.position.x).toEqual(0);
-            expect(find('ball').getGameObject().transform.position.y).toEqual(3);
-            expect(find('ball').getGameObject().transform.position.z).toEqual(2);
-          });
-        });
-      });
-
       describe('matchers', function() {
         describe('toBeTruthy', function() {
           it('is true', function() {
@@ -181,6 +109,88 @@ class Specs extends Gunpowder {
 
             find('box').getGameObject().renderer.enabled = false;
             expect(match(find('box')).not().toBeHidden()).toFail();
+          });
+        });
+      });
+
+      describe('helpers', function() {
+        describe('find', function() {
+          it('can find the game object', function() {
+            expect(match(find('box')).toEqual(GameObject.Find('box'))).toPass();
+            expect(match(find('box')).toEqual(GameObject.Find('ball'))).toFail();
+          });
+        });
+
+        describe('move', function() {
+          it('moves forward', function() {
+            move('forward', 100, function() {
+              expect(find('player')).toHavePosition(2.1, 0.5, -13.0, 0.5);
+            });
+          });
+
+          it('moves backwards', function() {
+            move('backward', 100, function() {
+              expect(find('player')).toHavePosition(1.1, 0.5, -13.0, 0.5);
+            });
+          });
+
+          it('moves right', function() {
+            move('right', 100, function() {
+              expect(find('player')).toHavePosition(1.6, 0.5, -12.5, 0.5);
+            });
+          });
+
+          it('moves left', function() {
+            move('left', 100, function() {
+              expect(find('player')).toHavePosition(1.6, 0.5, -13.5, 0.5);
+            });
+          });
+
+          it('can run multiple movements in a single spec', function() {
+            move('backward', 100, function() {
+              expect(find('player')).toHavePosition(1.1, 0.5, -13.0, 0.5);
+            });
+
+            move('left', 100, function() {
+              expect(find('player')).toHavePosition(1.1, 0.5, -14.0, 0.5);
+            });
+          });
+        });
+
+        describe('buttonPress', function() {
+          it('presses the "control" button', function() {
+            expect(find('ball')).toBeVisible();
+            pressButton('Fire1', 500, function() {
+              expect(find('ball')).toBeHidden();
+            });
+          });
+        });
+
+        describe('keyPress', function() {
+          it('presses the "control" key', function() {
+            expect(find('box')).toBeVisible();
+            pressKey('h', 500, function() {
+              expect(find('box')).toBeHidden();
+            });
+          });
+        });
+
+        describe('moveTo', function() {
+          it('moves the object to the correct location', function() {
+            find('ball').moveTo(0, 3, 2);
+            expect(find('ball').getGameObject().transform.position.x).toEqual(0);
+            expect(find('ball').getGameObject().transform.position.y).toEqual(3);
+            expect(find('ball').getGameObject().transform.position.z).toEqual(2);
+          });
+        });
+
+        describe('waits', function() {
+          it('waits the specified time then runs the callback', function() {
+            find('cylinder').getGameObject().AddComponent(Rigidbody);
+            expect(find('plane')).toBeVisible();
+            waits(300, function() {
+              expect(find('plane')).toBeHidden();
+            });
           });
         });
       });

@@ -22,4 +22,11 @@ class Simulate {
       'callback': callback
     });
   }
+  
+  function waits(duration, callback) {
+    Gunpowder.simulationsToRun.Push({
+      'duration': duration,
+      'callback': callback
+    });
+  }
 }
