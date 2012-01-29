@@ -1,6 +1,7 @@
-class Selector {
-  function Selector(selector) {
+class Selector {  
+  function find(selector) {
     _gameObject = GameObject.Find(selector);
+    return this;
   }
 
   function moveTo(x, y, z) {

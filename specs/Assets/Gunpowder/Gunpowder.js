@@ -13,25 +13,25 @@ static var specsFinished = false;
 static var sceneName;
 
 // Selector methods
-function find(selector) { 
-  return new Selector(selector); 
+function find(objectName) { 
+  return selector.find(objectName); 
 }
 
 // Simulate methods
 function move(direction, duration, callback) {
-  new Simulate().move(direction, duration, callback);
+  simulate.move(direction, duration, callback);
 }
 
 function pressButton(button, duration, callback) {
-  new Simulate().buttonPress(button, duration, callback);
+  simulate.buttonPress(button, duration, callback);
 }
 
 function pressKey(key, duration, callback) {
-  new Simulate().keyPress(key, duration, callback);
+  simulate.keyPress(key, duration, callback);
 }
 
 function waits(milliseconds, callback) {
-  new Simulate().waits(milliseconds, callback);
+  simulate.waits(milliseconds, callback);
 }
 
 // Spec DSL
@@ -105,6 +105,10 @@ function Start() {
 static var Input = new Decorator();
 
 private
+
+var simulate = new Simulate();
+
+var selector = new Selector();
 
 function runSimulations() {
   while(simulationsToRun.length != 0) {
