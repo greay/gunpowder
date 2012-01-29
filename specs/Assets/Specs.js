@@ -265,39 +265,6 @@ class Specs extends Gunpowder {
           expect(number).toEqual(1);
         });
       });
-      
-      context('using beforeEach and afterEach together', function() {
-        var number = 4;
-        beforeEach(function() { number++; });
-        
-        afterEach(function() { number--; });
-        
-        it('increments the number', function() {
-          expect(number).toEqual(5);
-        });
-        
-        describe('nested beforeEach and afterEach', function() {
-          afterEach(function() { number--; });
-          
-          beforeEach(function() { number++; });
-          
-          it('increments the number', function() {
-            expect(number).toEqual(6);
-          });
-          
-          it('keeps the number the same', function() {
-            expect(number).toEqual(6);
-          });
-        });
-        
-        it('decrements the number', function() {
-          expect(number).toEqual(5);
-        });
-        
-        it('keeps the number the same', function() {
-          expect(number).toEqual(5);
-        });
-      });
     });
   }
 }
