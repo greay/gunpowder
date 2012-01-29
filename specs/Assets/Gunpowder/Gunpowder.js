@@ -18,16 +18,16 @@ function find(objectName) {
 }
 
 // Simulate methods
-function move(direction, duration, callback) {
-  simulate.move(direction, duration, callback);
+function move(direction, milliseconds, callback) {
+  simulate.move(direction, milliseconds, callback);
 }
 
-function pressButton(button, duration, callback) {
-  simulate.buttonPress(button, duration, callback);
+function pressButton(button, milliseconds, callback) {
+  simulate.buttonPress(button, milliseconds, callback);
 }
 
-function pressKey(key, duration, callback) {
-  simulate.keyPress(key, duration, callback);
+function pressKey(key, milliseconds, callback) {
+  simulate.keyPress(key, milliseconds, callback);
 }
 
 function waits(milliseconds, callback) {
@@ -102,7 +102,7 @@ function Start() {
   }
 }
 
-static var Input = new Decorator();
+static var Input = new Wrapper();
 
 private
 
@@ -113,7 +113,7 @@ var selector = new Selector();
 function runSimulations() {
   while(simulationsToRun.length != 0) {
     currentSimulation = simulationsToRun.Shift();
-    yield WaitForSeconds(currentSimulation['duration']/1000.0);
+    yield WaitForSeconds(currentSimulation['milliseconds']/1000.0);
     currentSimulation['callback']();
     currentSimulation = {};
   }

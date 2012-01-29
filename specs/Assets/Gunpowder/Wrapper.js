@@ -1,4 +1,4 @@
-class Decorator {
+class Wrapper {
   function GetAxis(axis) {
     var speed = 0.0;
 

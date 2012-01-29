@@ -1,31 +1,31 @@
 class Simulate {
-  function move(direction, duration, callback) {
+  function move(direction, milliseconds, callback) {
     Gunpowder.simulationsToRun.Push({
-      'duration': duration,
+      'milliseconds': milliseconds,
       'direction': direction,
       'callback': callback
     });
   }
 
-  function buttonPress(button, duration, callback) {
+  function buttonPress(button, milliseconds, callback) {
     Gunpowder.simulationsToRun.Push({
-      'duration': duration,
+      'milliseconds': milliseconds,
       'button': button,
       'callback': callback
     });
   }
 
-  function keyPress(key, duration, callback) {
+  function keyPress(key, milliseconds, callback) {
     Gunpowder.simulationsToRun.Push({
-      'duration': duration,
+      'milliseconds': milliseconds,
       'key': key,
       'callback': callback
     });
   }
   
-  function waits(duration, callback) {
+  function waits(milliseconds, callback) {
     Gunpowder.simulationsToRun.Push({
-      'duration': duration,
+      'milliseconds': milliseconds,
       'callback': callback
     });
   }
