@@ -98,6 +98,10 @@ function Start() {
   }
 }
 
+static var Input = new Decorator();
+
+private
+
 function runSimulations() {
   while(simulationsToRun.length != 0) {
     currentSimulation = simulationsToRun.Shift();
@@ -106,10 +110,6 @@ function runSimulations() {
     currentSimulation = {};
   }
 }
-
-static var Input = new Decorator();
-
-private
 
 function resetScene() {
   Application.LoadLevel(sceneName);
