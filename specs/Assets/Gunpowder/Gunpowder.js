@@ -89,7 +89,8 @@ function Start() {
     } else {
       runNextSpec();
       updateSpecResults();
-      if(simulationsToRun.length == 0) { resetScene(); }
+      yield runSimulations();
+      resetScene();
     }
   } else {
     var passOrFail = failCount > 0 ? 'FAIL: ' : 'PASS: ';
@@ -97,19 +98,12 @@ function Start() {
   }
 }
 
-function Update() {
-  if(simulationsToRun.length != 0 || currentSimulation != {}) {
-    if(currentSimulation == {}) { currentSimulation = simulationsToRun.Shift(); }
-
-    if(currentSimulation['duration'] != 0) {
-      currentSimulation['duration'] -= 1;
-    } else {
-      currentSimulation['callback']();
-      currentSimulation = {};
-      if(simulationsToRun.length == 0) {
-        resetScene();
-      }
-    }
+function runSimulations() {
+  while(simulationsToRun.length != 0) {
+    currentSimulation = simulationsToRun.Shift();
+    yield WaitForSeconds(currentSimulation['duration']/1000.0);
+    currentSimulation['callback']();
+    currentSimulation = {};
   }
 }
 
