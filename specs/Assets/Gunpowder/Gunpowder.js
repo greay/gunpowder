@@ -3,6 +3,7 @@ static var currentSimulation = {};
 static var currentSpecContext;
 static var specsToRun = new Array();
 static var beforesToRun = new Array();
+static var aftersToRun = new Array();
 static var simulationsToRun = new Array();
 static var specMessageContext = new Array();
 static var specCount = 0;
@@ -43,18 +44,19 @@ function beforeEach(func) {
   beforesToRun.Push(func); 
 };
 
+function afterEach(func) {
+  aftersToRun.Push(func);
+}
+
 function context(name, func) { 
   describe(name, func); // Alias 
 };
 
 function describe(name, func) {
   specMessageContext.Push(name);
-  var before = beforesToRun.length;
-  func();
-  var after = beforesToRun.length;
-  for(var index = 0; index < (after-before); index++) { 
-    beforesToRun.Pop(); 
-  }
+  
+  runTestPreparatorsAround(func);
+  
   specMessageContext.Pop();
 };
 
@@ -77,7 +79,8 @@ function it(name) {
 
 function it(name, func) {
   specsToRun.Push({
-    'befores': new Array(beforesToRun), 
+    'befores': new Array(beforesToRun),
+    'afters': new Array(aftersToRun),
     'spec': func,
     'context': buildContextString(name)
   });
@@ -136,6 +139,7 @@ function runNextSpec() {
   for(var before in nextSpec['befores']) { before(); }
   currentSpecContext = nextSpec['context'];
   nextSpec['spec']();
+  for(var after in nextSpec['afters']) { after(); }
 }
 
 function updateSpecResults() {
@@ -151,4 +155,25 @@ function buildContextString(name) {
     context += (specMessageContext[index] + ' > ');
   }
   return context + name;
+}
+
+
+function runTestPreparatorsAround(func) {
+  var beforeDescribeBeforesLength = beforesToRun.length;
+  var beforeDescribeAftersLength = aftersToRun.length;
+  
+  func();
+  
+  var afterDescribeBeforesLength = beforesToRun.length;
+  var afterDescribeAftersLength = aftersToRun.length;
+  
+  var index;
+  
+  for(index = 0; index < (afterDescribeBeforesLength - beforeDescribeBeforesLength); index++) { 
+    beforesToRun.Pop(); 
+  }
+  
+  for(index = 0; index < (afterDescribeAftersLength - beforeDescribeAftersLength); index++) { 
+    aftersToRun.Pop(); 
+  }
 }

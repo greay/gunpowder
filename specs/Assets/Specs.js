@@ -157,7 +157,7 @@ class Specs extends Gunpowder {
           });
         });
 
-        describe('buttonPress', function() {
+        describe('pressButton', function() {
           it('presses the "control" button', function() {
             expect(find('ball')).toBeVisible();
             pressButton('Fire1', 500, function() {
@@ -166,7 +166,7 @@ class Specs extends Gunpowder {
           });
         });
 
-        describe('keyPress', function() {
+        describe('pressKey', function() {
           it('presses the "control" key', function() {
             expect(find('box')).toBeVisible();
             pressKey('h', 500, function() {
@@ -214,46 +214,88 @@ class Specs extends Gunpowder {
 
       describe('beforeEach', function() {
         var number = 0;
-        beforeEach(function() {
-          number++;
-        });
+        beforeEach(function() { number++; });
 
         it('increments the number', function() {
           expect(number).toEqual(1);
         });
 
         describe('nested beforeEach', function() {
-          beforeEach(function() {
-            number--;
-          });
+          beforeEach(function() { number--; });
 
           it('increments and decrements the number', function() {
             expect(number).toEqual(1);
           });
-
-          describe('another nested beforeEach', function() {
-            beforeEach(function() {
-              number--;
-            });
-
-            it('increments and double decrements the number', function() {
-              expect(number).toEqual(0);
-            });
-          });
         });
 
-        context('another nested beforeEach', function() {
-          beforeEach(function() {
-            number++;
-          });
+        it('increments the number again', function() {
+          expect(number).toEqual(2);
+        });
+        
+        it('increments the number yet again', function() {
+          expect(number).toEqual(3);
+        });
+      });
+      
+      describe('afterEach', function() {
+        var number = 3;
+        afterEach(function() { number--; });
 
-          it('double increments the number', function() {
+        it('does not change the number', function() {
+          expect(number).toEqual(3);
+        });
+
+        describe('nested afterEach', function() {
+          afterEach(function() { number++; });
+
+          it('decrements the number', function() {
+            expect(number).toEqual(2);
+          });
+          
+          it('increments and decrements the number', function() {
             expect(number).toEqual(2);
           });
         });
 
-        it('increments the number again', function() {
-          expect(number).toEqual(3);
+        it('decrements the number again', function() {
+          expect(number).toEqual(2);
+        });
+        
+        it('decrements the number yet again', function() {
+          expect(number).toEqual(1);
+        });
+      });
+      
+      context('using beforeEach and afterEach together', function() {
+        var number = 4;
+        beforeEach(function() { number++; });
+        
+        afterEach(function() { number--; });
+        
+        it('increments the number', function() {
+          expect(number).toEqual(5);
+        });
+        
+        describe('nested beforeEach and afterEach', function() {
+          afterEach(function() { number--; });
+          
+          beforeEach(function() { number++; });
+          
+          it('increments the number', function() {
+            expect(number).toEqual(6);
+          });
+          
+          it('keeps the number the same', function() {
+            expect(number).toEqual(6);
+          });
+        });
+        
+        it('decrements the number', function() {
+          expect(number).toEqual(5);
+        });
+        
+        it('keeps the number the same', function() {
+          expect(number).toEqual(5);
         });
       });
     });
