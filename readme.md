@@ -1,6 +1,6 @@
 # Gunpowder 
 
-Gunpowder is a behavior-driven development tool for Unity3D that allows you to make the best games, like ever.
+Gunpowder is a behaviour-driven development tool for Unity3D that allows you to make the best games, like ever.
 
 ## Pivotal Tracker Project 
 
