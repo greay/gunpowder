@@ -8,7 +8,7 @@ class Selector {
     _gameObject.transform.position = new Vector3(x, y, z);
   }
 
-  function getGameObject() {
+  function gameObject() {
     return _gameObject;
   }
 

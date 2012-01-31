@@ -21,7 +21,7 @@ class Matcher {
     } else {
       switch(actual.GetType()) {
         case typeof(Selector):
-        _actual = actual.getGameObject();
+        _actual = actual.gameObject();
         break;
         case typeof(Matcher):
         _failed = actual._failed;

@@ -64,13 +64,13 @@ class Specs extends Gunpowder {
 
         describe('toHavePosition', function() {
           it('has the correct position', function() {
-            find('box').getGameObject().transform.position = new Vector3(1, 2, 3);
+            find('box').gameObject().transform.position = new Vector3(1, 2, 3);
             expect(match(find('box')).toHavePosition(1, 2, 3)).toPass();
             expect(match(find('box')).toHavePosition(3, 2, 1)).toFail();
           });
 
           it('does not have the correct position', function() {
-            find('box').getGameObject().transform.position = new Vector3(1, 2, 3);
+            find('box').gameObject().transform.position = new Vector3(1, 2, 3);
             expect(match(find('box')).not().toHavePosition(3, 2, 1)).toPass();
             expect(match(find('box')).not().toHavePosition(1, 2, 3)).toFail();
           });
@@ -78,36 +78,36 @@ class Specs extends Gunpowder {
 
         describe('toBeVisible', function() {
           it('is visible', function() {
-            find('ball').getGameObject().renderer.enabled = true;
+            find('ball').gameObject().renderer.enabled = true;
             expect(match(find('ball')).toBeVisible()).toPass();
 
-            find('ball').getGameObject().renderer.enabled = false;
+            find('ball').gameObject().renderer.enabled = false;
             expect(match(find('ball')).toBeVisible()).toFail();
           });
 
           it('is not visible', function() {
-            find('ball').getGameObject().renderer.enabled = false;
+            find('ball').gameObject().renderer.enabled = false;
             expect(match(find('ball')).not().toBeVisible()).toPass();
 
-            find('ball').getGameObject().renderer.enabled = true;
+            find('ball').gameObject().renderer.enabled = true;
             expect(match(find('ball')).not().toBeVisible()).toFail();
           });
         });
 
         describe('toBeHidden', function() {
           it('is hidden', function() {
-            find('box').getGameObject().renderer.enabled = false;
+            find('box').gameObject().renderer.enabled = false;
             expect(match(find('box')).toBeHidden()).toPass();
 
-            find('box').getGameObject().renderer.enabled = true;
+            find('box').gameObject().renderer.enabled = true;
             expect(match(find('box')).toBeHidden()).toFail();
           });
 
           it('is not hidden', function() {
-            find('box').getGameObject().renderer.enabled = true;
+            find('box').gameObject().renderer.enabled = true;
             expect(match(find('box')).not().toBeHidden()).toPass();
 
-            find('box').getGameObject().renderer.enabled = false;
+            find('box').gameObject().renderer.enabled = false;
             expect(match(find('box')).not().toBeHidden()).toFail();
           });
         });
@@ -178,15 +178,15 @@ class Specs extends Gunpowder {
         describe('moveTo', function() {
           it('moves the object to the correct location', function() {
             find('ball').moveTo(0, 3, 2);
-            expect(find('ball').getGameObject().transform.position.x).toEqual(0);
-            expect(find('ball').getGameObject().transform.position.y).toEqual(3);
-            expect(find('ball').getGameObject().transform.position.z).toEqual(2);
+            expect(find('ball').gameObject().transform.position.x).toEqual(0);
+            expect(find('ball').gameObject().transform.position.y).toEqual(3);
+            expect(find('ball').gameObject().transform.position.z).toEqual(2);
           });
         });
 
         describe('waits', function() {
           it('waits the specified time then runs the callback', function() {
-            find('cylinder').getGameObject().AddComponent(Rigidbody);
+            find('cylinder').gameObject().AddComponent(Rigidbody);
             expect(find('plane')).toBeVisible();
             waits(300, function() {
               expect(find('plane')).toBeHidden();
@@ -197,8 +197,8 @@ class Specs extends Gunpowder {
 
       describe('resetting the scene', function() {
         context('a spec finishes', function() {
-          var boxPosition = find('box').getGameObject().transform.position;
-          var ballPosition = find('ball').getGameObject().transform.position;
+          var boxPosition = find('box').gameObject().transform.position;
+          var ballPosition = find('ball').gameObject().transform.position;
 
           it('moves the objects', function() {
             find('box').moveTo(5, 5, 5);
