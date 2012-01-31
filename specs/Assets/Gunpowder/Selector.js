@@ -12,9 +12,5 @@ class Selector {
     return _gameObject;
   }
 
-  function simulate() { 
-    return new Simulate(); 
-  }
-
   var _gameObject;
 }
