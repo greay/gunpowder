@@ -157,7 +157,6 @@ function buildContextString(name) {
   return context + name;
 }
 
-
 function runTestPreparatorsAround(func) {
   var beforeDescribeBeforesLength = beforesToRun.length;
   var beforeDescribeAftersLength = aftersToRun.length;
