@@ -7,7 +7,7 @@ class MySceneSpec extends Gunpowder {
       
       describe('when the game starts', function() {
         it('should not show my game object', function() {
-          expect(_('my game object name')).toBeHidden();
+          expect(find('my game object name')).toBeHidden();
         });
       })
     });
