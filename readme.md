@@ -25,4 +25,14 @@ https://www.pivotaltracker.com/projects/456391/
 - `toBeVisible()`
 - `toBeHidden()`
 
+## Simulating Input
+
+- `move('forward|backward|left|right', milliseconds, callback)`
+- `pressButton('Fire1', milliseconds, callback)`
+- `pressKey('a', milliseconds, callback)`
+
+## Event Waiting
+
+- `waits(milliseconds, callback)`
+
 
