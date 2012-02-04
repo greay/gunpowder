@@ -1,4 +1,4 @@
-// Statinformation for specs
+// State information for specs
 static var currentSimulation = {};
 static var currentSpecContext;
 static var specsToRun = new Array();
