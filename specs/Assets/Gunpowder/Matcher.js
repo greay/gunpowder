@@ -36,7 +36,7 @@ class Matcher {
   function failed(message) {
     if(_showErrors) {
       Gunpowder.failedExpectation = true;
-      Debug.LogError(Gunpowder.currentSpecContext + ' > ' + message);
+      Gunpowder.failedExpectations.Push(Gunpowder.currentSpecContext + ' > ' + message);
     }
     _failed = true;
   }

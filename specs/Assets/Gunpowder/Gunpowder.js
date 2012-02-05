@@ -6,6 +6,7 @@ static var beforesToRun = new Array();
 static var aftersToRun = new Array();
 static var simulationsToRun = new Array();
 static var specMessageContext = new Array();
+static var failedExpectations = new Array();
 static var specCount = 0;
 static var failCount = 0;
 static var pendingCount = 0;
@@ -100,8 +101,8 @@ function Start() {
       resetScene();
     }
   } else {
-    var passOrFail = failCount > 0 ? 'FAIL: ' : 'PASS: ';
-    Debug.Log(passOrFail + specCount + ' specs, ' + failCount + ' failures, ' + pendingCount + ' pending, ' + Time.time + ' secs.');
+    for(var error in failedExpectations) { Debug.LogError(error); }
+    Debug.Log(specResults());
   }
 }
 
@@ -175,4 +176,10 @@ function runTestPreparatorsAround(func) {
   for(index = 0; index < (afterDescribeAftersLength - beforeDescribeAftersLength); index++) { 
     aftersToRun.Pop(); 
   }
+}
+
+function specResults() {
+  var passOrFail = failCount > 0 ? 'FAIL: ' : 'PASS: ';
+  var output = passOrFail + specCount + ' specs, ' + failCount + ' failures, ' + pendingCount + ' pending, ' + Time.time + ' secs.';
+  return output;
 }
