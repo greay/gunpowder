@@ -21,14 +21,14 @@ class Matcher {
     } else {
       switch(actual.GetType()) {
         case typeof(Selector):
-        _actual = actual.gameObject();
-        break;
+          _actual = actual.gameObject();
+          break;
         case typeof(Matcher):
-        _failed = actual._failed;
-        break;
+          _failed = actual._failed;
+          break;
         default:
-        _actual = actual;
-        break;
+          _actual = actual;
+          break;
       }
     }
   }
