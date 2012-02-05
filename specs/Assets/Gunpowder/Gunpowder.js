@@ -130,6 +130,7 @@ function beginSpecs() {
   Debug.Log('Running Gunpowder specs...');
   run();
   specCount += specsToRun.length;
+  if(specCount == 0) { specsFinished = true; }
   Start();
 }
 
