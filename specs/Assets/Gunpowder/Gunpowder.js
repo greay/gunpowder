@@ -101,7 +101,6 @@ function Start() {
       resetScene();
     }
   } else {
-    for(var error in failedExpectations) { Debug.LogError(error); }
     Debug.Log(specResults());
   }
 }
@@ -135,12 +134,20 @@ function beginSpecs() {
 }
 
 function runNextSpec() {
-  if(specsToRun.length == 1) { specsFinished = true; }
   var nextSpec = specsToRun.Shift();
+  if(specsToRun.length == 1) { specsFinished = true; }
+  
   for(var before in nextSpec['befores']) { before(); }
+  
   currentSpecContext = nextSpec['context'];
   nextSpec['spec']();
+  
   for(var after in nextSpec['afters']) { after(); }
+  
+  while(failedExpectations.length != 0) {
+    var error = failedExpectations.Pop();
+    Debug.LogError(error);
+  }
 }
 
 function updateSpecResults() {

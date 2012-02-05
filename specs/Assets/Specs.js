@@ -6,54 +6,50 @@ class Specs extends Gunpowder {
       });
       
       describe('test results', function() {
-        context('no test failures', function() {
-          it('passes the test', function() {
+        describe('passing specs', function() {
+          it('passes', function() {
             expect(1).toEqual(1);
+            expect(failedExpectations.length).toEqual(0);
           });
           
           it('shows the right output', function() {
-            var match = Regex.Match(specResults(), "PASS: (.+) specs, 0 failures, 2 pending, (.+) secs.");
+            var match = Regex.Match(specResults(), "PASS: (.+) specs, 0 failures, (.+) pending, (.+) secs.");
             expect(match.Success).toBeTruthy();
           });
         });
         
-        context('test failures', function() {
-          it('does not pass the test', function() {
-            expect(5).toEqual(1);
-            failedExpectations.Pop();
-          });
-          
-          it('shows the right output', function() {
-            var match = Regex.Match(specResults(), "FAIL: (.+) specs, 1 failures, 2 pending, (.+) secs.");
-            expect(match.Success).toBeTruthy();
-            failCount--;
-          });
-        });
-        
-        describe('expectations', function() {
+        describe('failing specs', function() {
           it('fails', function() {
-            expect(false).toBeTruthy(); 
+            expect(5).toEqual(1);
+            expect(failedExpectations.Pop()).toEqual('gunpowder > test results > failing specs > fails > expected 5 to equal 1');
           });
           
           context('another failure', function() {
             it('fails again', function() {
               expect(true).toBeFalsy(); 
+              expect(failedExpectations.Pop()).toEqual('gunpowder > test results > failing specs > another failure > fails again > expected True to be falsy');
             });
           });
           
-          it('generates the correct error for the above tests', function() {
-            expect(failedExpectations.Pop()).toEqual('gunpowder > test results > expectations > another failure > fails again > expected True to be falsy');
-            expect(failedExpectations.Pop()).toEqual('gunpowder > test results > expectations > fails > expected False to be truthy');
-            failCount -= 2;
+          it('shows the right output', function() {
+            var match = Regex.Match(specResults(), "FAIL: (.+) specs, 2 failures, (.+) pending, (.+) secs.");
+            expect(match.Success).toBeTruthy();
+            failCount -= 2; // Hide these test errors from the real test results output
           });
         });
-      });
+        
+        describe('pending specs', function() {
+          it('will test something');
 
-      describe('pending specs', function() {
-        it('will test something');
-
-        xit('is failing', function() {
-          expect(match(1).toEqual(5)).toPass();
+          xit('is failing', function() {
+            expect(1).toEqual(5);
+          });
+          
+          it('shows the right output', function() {
+            var match = Regex.Match(specResults(), "PASS: (.+) specs, 0 failures, 2 pending, (.+) secs.");
+            expect(match.Success).toBeTruthy();
+            pendingCount -= 2; // Hide these pending tests from the real test results output
+          });
         });
       });
 
