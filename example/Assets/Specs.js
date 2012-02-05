@@ -1,9 +1,7 @@
-#pragma strict
-
-function Start () {
-
-}
-
-function Update () {
-
+class Specs extends Gunpowder {
+  function run() {
+    describe('Pizza Eater', function() {
+      
+    });
+  }
 }
