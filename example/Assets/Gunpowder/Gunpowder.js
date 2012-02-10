@@ -74,8 +74,8 @@ function xit(name, func) {
 }
 
 function it(name) { 
-  specCount++;
-  pendingCount++; 
+  it(name, function(){});
+  pendingCount++;
 }
 
 function it(name, func) {
@@ -130,13 +130,13 @@ function beginSpecs() {
   Debug.Log('Running Gunpowder specs...');
   run();
   specCount += specsToRun.length;
-  if(specCount == 0) { specsFinished = true; }
   Start();
 }
 
 function runNextSpec() {
-  var nextSpec = specsToRun.Shift();
   if(specsToRun.length == 1) { specsFinished = true; }
+  
+  var nextSpec = specsToRun.Shift();
   
   for(var before in nextSpec['befores']) { before(); }
   
