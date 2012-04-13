@@ -35,4 +35,12 @@ https://www.pivotaltracker.com/projects/456391/
 
 - `waits(milliseconds, callback)`
 
+## Known Limitations :(
 
+- Can only have one spec file per project.
+
+## Contributions
+
+I would love help from anybody since this is my first time creating a testing framework and I know there are people out there MUCH smarter than me! :D Send the ol' pull request and I'll get to it right away. Please include tests though. ;) 
+
+Thank you!
