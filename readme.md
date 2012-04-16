@@ -24,12 +24,23 @@ https://www.pivotaltracker.com/projects/456391/
 - `toHavePosition(x, y, z)`
 - `toBeVisible()`
 - `toBeHidden()`
+- `toHaveColor(Color)`
+
+## Selector Actions
+
+- `moveTo(x, y, z)`
+- `mouseEnter(scriptName)`
 
 ## Simulating Input
 
+Note when using the below methods, you'll have to make sure and use Gunpowder's built in input methods. This is so the test framework can fake user input.
+
 - `move('forward|backward|left|right', milliseconds, callback)`
+  - controls Gunpowder.Input.GetAxis
 - `pressButton('Fire1', milliseconds, callback)`
+  - controls Gunpowder.Input.GetButton
 - `pressKey('a', milliseconds, callback)`
+  - controls Gunpowder.Input.GetKey
 
 ## Event Waiting
 
