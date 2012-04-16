@@ -15,16 +15,33 @@ class Specs extends Gunpowder {
         });
         
         context('hovering over the links', function() {
+          var startLink;
+          var quitLink;
+          beforeEach(function() {
+            startLink = find('Start Link');
+            quitLink = find('Quit Link');
+          });
+          
           it('adds a blue highlight to the start link', function() {
-            var startLink = find('Start Link');
             startLink.mouseEnter('Menu');
             expect(startLink).toHaveColor(Color.blue);
           });
           
           it('adds a blue highlight to the quit link', function() {
-            var quitLink = find('Quit Link');
             quitLink.mouseEnter('Menu');
             expect(quitLink).toHaveColor(Color.blue);
+          });
+          
+          context('and then hovering off', function() {
+            it('removes the blue highlight from the start link', function() {
+              startLink.mouseEnter('Menu').mouseExit('Menu');
+              expect(startLink).toHaveColor(Color.white);
+            });
+            
+            it('removes the blue highlight from the quit link', function() {
+              quitLink.mouseEnter('Menu').mouseExit('Menu');
+              expect(quitLink).toHaveColor(Color.white);
+            });
           });
         });
         

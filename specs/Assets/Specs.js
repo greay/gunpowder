@@ -255,6 +255,14 @@ class Specs extends Gunpowder {
             expect(ball).toHaveColor(Color.green);    
           });
         });
+        
+        describe('mouseExit', function() {
+          it('triggers the OnMouseExit on the object', function() {
+            var ball = find('ball');
+            ball.mouseExit('ball');
+            expect(ball).toHaveColor(Color.yellow);    
+          });
+        });
       });
 
       describe('resetting the scene', function() {
