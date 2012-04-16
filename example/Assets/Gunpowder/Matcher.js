@@ -147,6 +147,20 @@ class Matcher {
 
     return this;
   }
+  
+  function toHaveColor(color) {
+    if(_negate) {
+      if(_actual.renderer.material.color == color) {
+        failed('expected ' + _actual.name + ' not to have color ' + color);
+      }
+    } else {
+      if(_actual.renderer.material.color != color) {
+        failed('expected ' + _actual.name + ' to have color ' + color);
+      }
+    }
+
+    return this;
+  }
 
   function not() {
     _negate = true;

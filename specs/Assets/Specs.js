@@ -151,6 +151,20 @@ class Specs extends Gunpowder {
             expect(match(find('box')).not().toBeHidden()).toFail();
           });
         });
+        
+        describe('toHaveColor', function() {
+          it('has the correct color', function() {
+            var box = find('box');
+            box.gameObject().renderer.material.color = Color.red;
+            expect(match(box).toHaveColor(Color.red)).toPass();
+          });
+          
+          it('does not have the correct color', function() {
+            var box = find('box');
+            box.gameObject().renderer.material.color = Color.red;
+            expect(match(box).toHaveColor(Color.blue)).toFail();
+          });
+        });
       });
 
       describe('helpers', function() {
@@ -188,11 +202,11 @@ class Specs extends Gunpowder {
 
           it('can run multiple movements in a single spec', function() {
             move('backward', 100, function() {
-              expect(find('player')).toHavePosition(1.1, 0.5, -13.0, 0.5);
+              expect(find('player')).toHavePosition(1.1, 0.5, -13.0, 0.8);
             });
 
             move('left', 100, function() {
-              expect(find('player')).toHavePosition(1.1, 0.5, -14.0, 0.5);
+              expect(find('player')).toHavePosition(1.1, 0.5, -14.0, 0.8);
             });
           });
         });
@@ -231,6 +245,14 @@ class Specs extends Gunpowder {
             waits(300, function() {
               expect(find('plane')).toBeHidden();
             });
+          });
+        });
+      
+        describe('mouseEnter', function() {
+          it('triggers the OnMouseEnter on the object', function() {
+            var ball = find('ball');
+            ball.mouseEnter('ball');
+            expect(ball).toHaveColor(Color.green);    
           });
         });
       });

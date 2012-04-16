@@ -3,3 +3,7 @@ function Update() {
     renderer.enabled = false;
   }
 }
+
+function OnMouseEnter() {
+  renderer.material.color = Color.green;
+}
