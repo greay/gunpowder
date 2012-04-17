@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Gunpowder: BDD for Unity by calebhc</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Gunpowder: BDD for Unity</h1>
+        <p></p>
+        <p class="view"><a href="https://github.com/calebhc/gunpowder">View the Project on GitHub <small>calebhc/gunpowder</small></a></p>
+        <ul>
+          <li><a href="https://github.com/calebhc/gunpowder/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/calebhc/gunpowder/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/calebhc/gunpowder">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p><img src="https://s3.amazonaws.com/kittypizza/gunpowder.png" alt="Macaroni is good"></p>
+
+<h1>Gunpowder</h1>
+
+<p>Gunpowder is a behaviour-driven development tool for Unity3D that allows you to make the best games, like ever.</p>
+
+<h2>Pivotal Tracker Project</h2>
+
+<p><a href="https://www.pivotaltracker.com/projects/456391/">https://www.pivotaltracker.com/projects/456391/</a></p>
+
+<h2>Setup</h2>
+
+<p>5 easy steps:</p>
+
+<ol>
+<li>Import the Gunpowder package into your project</li>
+<li>In your scene, create an empty game object and call it Spec Runner</li>
+<li>Create a new javascript file and call it something like MySceneSpec</li>
+<li>(optional) Copy the code from the template.js file to get started</li>
+<li>Attach MySceneSpec to your Spec Runner game object</li>
+</ol><p>That's it!</p>
+
+<h2>Matchers</h2>
+
+<p>Example: expect(find('object name')).toExist();</p>
+
+<ul>
+<li><code>toExist()</code></li>
+<li><code>toBeTruthy()</code></li>
+<li><code>toBeFalsy()</code></li>
+<li><code>toEqual(object)</code></li>
+<li><code>toHavePosition(x, y, z)</code></li>
+<li><code>toBeVisible()</code></li>
+<li><code>toBeHidden()</code></li>
+<li><code>toHaveColor(Color)</code></li>
+</ul><h2>Selector Actions</h2>
+
+<p>Note these actions are chainable.</p>
+
+<p>Example: find('object name').moveTo(1, 1, 1);</p>
+
+<ul>
+<li><code>moveTo(x, y, z)</code></li>
+<li><code>mouseEnter(scriptName)</code></li>
+<li><code>mouseExit(scriptName)</code></li>
+</ul><h2>Simulating Input</h2>
+
+<p>Note when using the below methods, you'll have to make sure and use Gunpowder's built in input methods. This is so the test framework can fake user input.</p>
+
+<ul>
+<li>
+<code>move('forward|backward|left|right', milliseconds, callback)</code>
+
+<ul>
+<li>controls Gunpowder.Input.GetAxis</li>
+</ul>
+</li>
+<li>
+<code>pressButton('Fire1', milliseconds, callback)</code>
+
+<ul>
+<li>controls Gunpowder.Input.GetButton</li>
+</ul>
+</li>
+<li>
+<code>pressKey('a', milliseconds, callback)</code>
+
+<ul>
+<li>controls Gunpowder.Input.GetKey</li>
+</ul>
+</li>
+</ul><h2>Event Waiting</h2>
+
+<ul>
+<li><code>waits(milliseconds, callback)</code></li>
+</ul><h2>Known Limitations :(</h2>
+
+<ul>
+<li>Can only have one spec file per scene.</li>
+</ul><h2>Contributions</h2>
+
+<p>I would love help from anybody since this is my first time creating a testing framework and I know there are people out there MUCH smarter than me! :D Send the ol' pull request and I'll get to it right away. Please include tests though. ;) </p>
+
+<p>Thank you!</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/calebhc">calebhc</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-30966008-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
