@@ -8,14 +8,19 @@ https://www.pivotaltracker.com/projects/456391/
 
 ## Setup
 
+5 easy steps:
+
 1. Import the Gunpowder package into your project
 2. In your scene, create an empty game object and call it Spec Runner
 3. Create a new javascript file and call it something like MySceneSpec
 4. (optional) Copy the code from the template.js file to get started
 5. Attach MySceneSpec to your Spec Runner game object
-6. Done. Now start writing your specs and make an awesome game!
+
+That's it!
 
 ## Matchers
+
+Example: expect(find('object name')).toExist();
 
 - `toExist()`
 - `toBeTruthy()`
@@ -28,8 +33,13 @@ https://www.pivotaltracker.com/projects/456391/
 
 ## Selector Actions
 
+Note these actions are chainable.
+
+Example: find('object name').moveTo(1, 1, 1);
+
 - `moveTo(x, y, z)`
 - `mouseEnter(scriptName)`
+- `mouseExit(scriptName)`
 
 ## Simulating Input
 
