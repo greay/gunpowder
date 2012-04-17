@@ -1,4 +1,5 @@
-# Gunpowder 
+![Macaroni is good](https://s3.amazonaws.com/kittypizza/gunpowder.png)
+# Gunpowder
 
 Gunpowder is a behaviour-driven development tool for Unity3D that allows you to make the best games, like ever.
 
@@ -58,7 +59,7 @@ Note when using the below methods, you'll have to make sure and use Gunpowder's 
 
 ## Known Limitations :(
 
-- Can only have one spec file per project.
+- Can only have one spec file per scene.
 
 ## Contributions
 
